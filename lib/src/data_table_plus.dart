@@ -142,7 +142,7 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
       data: widget.theme ?? DataTablePlusThemeData.defaults,
       child: ListView(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           widget.header,
           TableHeader<T>(

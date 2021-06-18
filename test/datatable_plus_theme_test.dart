@@ -1,4 +1,5 @@
 import 'package:datatable_plus/datatable_plus.dart';
+import 'package:datatable_plus/src/widgets/footer.dart';
 import 'package:datatable_plus/src/widgets/header.dart';
 import 'package:datatable_plus/src/widgets/row.dart';
 import 'package:flutter/material.dart' hide TableRow;
@@ -66,30 +67,28 @@ void main() {
               source: source,
               theme: theme,
               onRowPressed: (_, __) => null,
-              empty: () => const SizedBox(),
-              loading: () => const SizedBox(),
-              error: (err) => const SizedBox(),
-              header: const SizedBox(),
+              empty: () => const SizedBox.shrink(),
+              loading: () => const SizedBox.shrink(),
+              error: (err) => const SizedBox.shrink(),
+              header: const SizedBox.shrink(),
               columns: [
                 TableColumn(
                   label: Text('Column'),
-                  cellBuilder: (_) => Container(),
+                  cellBuilder: (_) => const SizedBox.shrink(),
                 ),
                 TableColumn(
                   label: Text('Column'),
-                  cellBuilder: (_) => Container(),
+                  cellBuilder: (_) => const SizedBox.shrink(),
                 ),
                 TableColumn(
                   label: Text('Column'),
-                  cellBuilder: (_) => Container(),
+                  cellBuilder: (_) => const SizedBox.shrink(),
                 ),
               ],
             ),
           ),
         ),
       );
-
-      await tester.pump();
 
       final row = find.byWidgetPredicate(
         (widget) => widget is TableRow<Map<String, dynamic>>,
@@ -98,6 +97,13 @@ void main() {
       final header = find.byWidgetPredicate(
         (widget) => widget is TableHeader<Map<String, dynamic>>,
       );
+
+      final footer = find.byWidgetPredicate(
+          (widget) => widget is TableFooter<Map<String, dynamic>>);
+
+      expect(header, findsOneWidget);
+
+      expect(footer, findsOneWidget);
 
       final headerDecoratedBox = tester.widget<DecoratedBox>(
         find.descendant(
@@ -108,11 +114,9 @@ void main() {
 
       final footerContainer = find.byWidgetPredicate((widget) =>
           widget is Container &&
-          (widget.decoration as BoxDecoration).color == theme.footerColor);
+          (widget.decoration as BoxDecoration?)?.color == theme.footerColor);
 
-      expect(tester.getSize(row.first).height, theme.rowHeight);
-
-      expect(find.text('Rows Per Page'), findsOneWidget);
+      expect(find.text('Rows Per Page', skipOffstage: false), findsOneWidget);
 
       expect(
         (headerDecoratedBox.decoration as BoxDecoration).color,
@@ -123,6 +127,11 @@ void main() {
         footerContainer,
         findsOneWidget,
       );
+
+      await tester.pump();
+
+      expect(row, findsWidgets);
+      expect(tester.getSize(row.first).height, theme.rowHeight);
     },
   );
 }

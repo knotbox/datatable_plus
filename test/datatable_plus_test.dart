@@ -1,3 +1,4 @@
+import 'package:datatable_plus/src/widgets/header.dart';
 import 'package:datatable_plus/src/widgets/row.dart';
 import 'package:flutter/material.dart' hide TableRow;
 import 'package:flutter_test/flutter_test.dart';
@@ -47,7 +48,13 @@ void main() {
         ),
       );
 
-      await tester.pumpAndSettle();
+      await tester.tap(
+        find.byIcon(Icons.arrow_forward_ios),
+      );
+
+      expect(source.page, 1);
+
+      await tester.pump();
 
       await tester.tap(
         find
@@ -58,15 +65,32 @@ void main() {
       );
 
       expect(log, <String>['row-pressed']);
+
       log.clear();
 
-      // await tester.tap(
-      //   find.byIcon(Icons.arrow_forward_ios),
-      // );
+      final firstHeader = find.descendant(
+        of: find.byWidgetPredicate(
+            (widget) => widget is TableHeader<Map<String, dynamic>>),
+        matching: find.byType(InkWell).first,
+      );
 
-      // await tester.pump();
+      await tester.tap(firstHeader);
 
-      // expect(source.page, 1);
+      expect(source.sortColumnIndex, 0);
+      expect(source.sortAscending, true);
+
+      await tester.pump();
+
+      expect(find.byIcon(Icons.keyboard_arrow_up), findsOneWidget);
+
+      await tester.tap(firstHeader);
+
+      expect(source.sortColumnIndex, 0);
+      expect(source.sortAscending, false);
+
+      await tester.pump();
+
+      expect(find.byIcon(Icons.keyboard_arrow_down), findsOneWidget);
     },
   );
 }

@@ -37,7 +37,7 @@ class TableFooter<T> extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ...table.footerWidgets,
-                      VerticalDivider(indent: 10, endIndent: 10),
+                      const VerticalDivider(indent: 10, endIndent: 10),
                       if (table.showRowPerPageSelection)
                         Row(
                           children: [
@@ -50,7 +50,7 @@ class TableFooter<T> extends StatelessWidget {
                                   Text(
                                     theme.rowsPerPageLabel,
                                   ),
-                                  SizedBox(width: 10),
+                                  const SizedBox(width: 10),
                                   DropdownButton<int>(
                                     underline: SizedBox.shrink(),
                                     value: table.source.rowsPerPage,
@@ -75,7 +75,7 @@ class TableFooter<T> extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            VerticalDivider(indent: 10, endIndent: 10),
+                            const VerticalDivider(indent: 10, endIndent: 10),
                           ],
                         ),
                       IconButton(
@@ -85,7 +85,7 @@ class TableFooter<T> extends StatelessWidget {
                                 table.source.loadPreviousPage();
                                 table.onPageChanged?.call(table.source.page);
                               },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_back_ios,
                           size: 16,
                         ),
@@ -101,7 +101,7 @@ class TableFooter<T> extends StatelessWidget {
                                 table.source.loadNextPage();
                                 table.onPageChanged?.call(table.source.page);
                               },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_forward_ios,
                           size: 16,
                         ),

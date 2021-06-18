@@ -40,7 +40,7 @@ class _TableBodyState<T> extends State<TableBody<T>> {
 
                     final column = table.columns[columnIndex];
                     if (index >= widget.data.length) {
-                      child = SizedBox.shrink();
+                      child = const SizedBox.shrink();
                     } else {
                       child = Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
