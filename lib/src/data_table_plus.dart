@@ -1,8 +1,9 @@
-import 'package:datatable_plus/src/data_table_plus_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 
 import 'data_table_plus_source.dart';
+import 'data_table_plus_theme.dart';
 import 'models/table_column.dart';
 import 'widgets/body.dart';
 import 'widgets/footer.dart';

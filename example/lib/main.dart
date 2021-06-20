@@ -91,7 +91,9 @@ class _HomeState extends State<Home> {
           child: DataTablePlus<Model>(
             header: Container(),
             expandableKey: (index, model) => ObjectKey(model?.subtitle),
-            onRowPressed: (index, model) => source.expandAll(),
+            onRowPressed: (index, model) => source.toggleExpansion(
+              ObjectKey(model?.subtitle),
+            ),
             expandedRow: (index, item) {
               return Container(height: 100, color: Colors.purple);
             },
@@ -108,8 +110,10 @@ class _HomeState extends State<Home> {
                 label: Center(
                   child: Text('Column 1'),
                 ),
-                cellBuilder: (item) => Text(
-                  item.title,
+                cellBuilder: (item) => Center(
+                  child: Text(
+                    item.title,
+                  ),
                 ),
                 canSort: true,
               ),
@@ -117,8 +121,10 @@ class _HomeState extends State<Home> {
                 label: Center(
                   child: Text('Column 2'),
                 ),
-                cellBuilder: (item) => Text(
-                  item.subtitle,
+                cellBuilder: (item) => Center(
+                  child: Text(
+                    item.subtitle,
+                  ),
                 ),
                 canSort: true,
               ),
@@ -126,24 +132,30 @@ class _HomeState extends State<Home> {
                 label: Center(
                   child: Text('Column 3'),
                 ),
-                cellBuilder: (item) => Text(
-                  'test',
+                cellBuilder: (item) => Center(
+                  child: Text(
+                    'test',
+                  ),
                 ),
               ),
               TableColumn(
                 label: Center(
                   child: Text('Column 4'),
                 ),
-                cellBuilder: (item) => Text(
-                  'test',
+                cellBuilder: (item) => Center(
+                  child: Text(
+                    'test',
+                  ),
                 ),
               ),
               TableColumn(
                 label: Center(
                   child: Text('Column 5'),
                 ),
-                cellBuilder: (item) => Text(
-                  'test',
+                cellBuilder: (item) => Center(
+                  child: Text(
+                    'test',
+                  ),
                 ),
               ),
             ],

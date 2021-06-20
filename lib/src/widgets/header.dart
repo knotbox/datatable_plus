@@ -57,50 +57,21 @@ class TableHeader<T> extends StatelessWidget {
 
               if (isExpanded) {
                 return column.size.when(
-                  flex: (flex) => Expanded(
-                    flex: flex,
-                    child: child,
-                  ),
+                  flex: (flex) => isExpanded
+                      ? Expanded(
+                          flex: flex,
+                          child: child,
+                        )
+                      : SizedBox(
+                          width: table.scrollableCellWidth,
+                          child: child,
+                        ),
                   fixed: (size) => SizedBox(
                     width: size,
                     child: child,
                   ),
-                  max: (size) => ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: size,
-                    ),
-                    child: child,
-                  ),
-                  min: (size) => ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: size,
-                    ),
-                    child: child,
-                  ),
                 );
               }
-              return column.size.when(
-                flex: (flex) => SizedBox(
-                  width: table.scrollableCellWidth,
-                  child: child,
-                ),
-                fixed: (size) => SizedBox(
-                  width: size,
-                  child: child,
-                ),
-                max: (size) => ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: size,
-                  ),
-                  child: child,
-                ),
-                min: (size) => ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minWidth: size,
-                  ),
-                  child: child,
-                ),
-              );
             },
           );
 

@@ -18,14 +18,18 @@ class TableRow<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = DataTablePlusThemeData.of(context);
     final table = DataTablePlus.of<T>(context)!;
-    return Container(
-      height: theme.rowHeight,
-      decoration: BoxDecoration(
-        color: table.rowColor?.call(index, item) ?? Colors.transparent,
-      ),
-      child: Row(
-        children: cells,
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          height: theme.rowHeight,
+          decoration: BoxDecoration(
+            color: table.rowColor?.call(index, item) ?? Colors.transparent,
+          ),
+          child: Row(
+            children: cells,
+          ),
+        );
+      },
     );
   }
 }

@@ -6,6 +6,4 @@ part 'table_column_size.freezed.dart';
 class TableColumnSize with _$TableColumnSize {
   const factory TableColumnSize.flex(int flex) = FlexTableColumn;
   const factory TableColumnSize.fixed(double size) = FixedTableColumn;
-  const factory TableColumnSize.max(double size) = MaxTableColumn;
-  const factory TableColumnSize.min(double size) = MinTableColumn;
 }

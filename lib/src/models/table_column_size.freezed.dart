@@ -27,18 +27,6 @@ class _$TableColumnSizeTearOff {
       size,
     );
   }
-
-  MaxTableColumn max(double size) {
-    return MaxTableColumn(
-      size,
-    );
-  }
-
-  MinTableColumn min(double size) {
-    return MinTableColumn(
-      size,
-    );
-  }
 }
 
 /// @nodoc
@@ -50,16 +38,12 @@ mixin _$TableColumnSize {
   TResult when<TResult extends Object?>({
     required TResult Function(int flex) flex,
     required TResult Function(double size) fixed,
-    required TResult Function(double size) max,
-    required TResult Function(double size) min,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int flex)? flex,
     TResult Function(double size)? fixed,
-    TResult Function(double size)? max,
-    TResult Function(double size)? min,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -67,16 +51,12 @@ mixin _$TableColumnSize {
   TResult map<TResult extends Object?>({
     required TResult Function(FlexTableColumn value) flex,
     required TResult Function(FixedTableColumn value) fixed,
-    required TResult Function(MaxTableColumn value) max,
-    required TResult Function(MinTableColumn value) min,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(FlexTableColumn value)? flex,
     TResult Function(FixedTableColumn value)? fixed,
-    TResult Function(MaxTableColumn value)? max,
-    TResult Function(MinTableColumn value)? min,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -166,8 +146,6 @@ class _$FlexTableColumn implements FlexTableColumn {
   TResult when<TResult extends Object?>({
     required TResult Function(int flex) flex,
     required TResult Function(double size) fixed,
-    required TResult Function(double size) max,
-    required TResult Function(double size) min,
   }) {
     return flex(this.flex);
   }
@@ -177,8 +155,6 @@ class _$FlexTableColumn implements FlexTableColumn {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int flex)? flex,
     TResult Function(double size)? fixed,
-    TResult Function(double size)? max,
-    TResult Function(double size)? min,
     required TResult orElse(),
   }) {
     if (flex != null) {
@@ -192,8 +168,6 @@ class _$FlexTableColumn implements FlexTableColumn {
   TResult map<TResult extends Object?>({
     required TResult Function(FlexTableColumn value) flex,
     required TResult Function(FixedTableColumn value) fixed,
-    required TResult Function(MaxTableColumn value) max,
-    required TResult Function(MinTableColumn value) min,
   }) {
     return flex(this);
   }
@@ -203,8 +177,6 @@ class _$FlexTableColumn implements FlexTableColumn {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(FlexTableColumn value)? flex,
     TResult Function(FixedTableColumn value)? fixed,
-    TResult Function(MaxTableColumn value)? max,
-    TResult Function(MinTableColumn value)? min,
     required TResult orElse(),
   }) {
     if (flex != null) {
@@ -290,8 +262,6 @@ class _$FixedTableColumn implements FixedTableColumn {
   TResult when<TResult extends Object?>({
     required TResult Function(int flex) flex,
     required TResult Function(double size) fixed,
-    required TResult Function(double size) max,
-    required TResult Function(double size) min,
   }) {
     return fixed(size);
   }
@@ -301,8 +271,6 @@ class _$FixedTableColumn implements FixedTableColumn {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int flex)? flex,
     TResult Function(double size)? fixed,
-    TResult Function(double size)? max,
-    TResult Function(double size)? min,
     required TResult orElse(),
   }) {
     if (fixed != null) {
@@ -316,8 +284,6 @@ class _$FixedTableColumn implements FixedTableColumn {
   TResult map<TResult extends Object?>({
     required TResult Function(FlexTableColumn value) flex,
     required TResult Function(FixedTableColumn value) fixed,
-    required TResult Function(MaxTableColumn value) max,
-    required TResult Function(MinTableColumn value) min,
   }) {
     return fixed(this);
   }
@@ -327,8 +293,6 @@ class _$FixedTableColumn implements FixedTableColumn {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(FlexTableColumn value)? flex,
     TResult Function(FixedTableColumn value)? fixed,
-    TResult Function(MaxTableColumn value)? max,
-    TResult Function(MinTableColumn value)? min,
     required TResult orElse(),
   }) {
     if (fixed != null) {
@@ -344,253 +308,5 @@ abstract class FixedTableColumn implements TableColumnSize {
   double get size => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $FixedTableColumnCopyWith<FixedTableColumn> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MaxTableColumnCopyWith<$Res> {
-  factory $MaxTableColumnCopyWith(
-          MaxTableColumn value, $Res Function(MaxTableColumn) then) =
-      _$MaxTableColumnCopyWithImpl<$Res>;
-  $Res call({double size});
-}
-
-/// @nodoc
-class _$MaxTableColumnCopyWithImpl<$Res>
-    extends _$TableColumnSizeCopyWithImpl<$Res>
-    implements $MaxTableColumnCopyWith<$Res> {
-  _$MaxTableColumnCopyWithImpl(
-      MaxTableColumn _value, $Res Function(MaxTableColumn) _then)
-      : super(_value, (v) => _then(v as MaxTableColumn));
-
-  @override
-  MaxTableColumn get _value => super._value as MaxTableColumn;
-
-  @override
-  $Res call({
-    Object? size = freezed,
-  }) {
-    return _then(MaxTableColumn(
-      size == freezed
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$MaxTableColumn implements MaxTableColumn {
-  const _$MaxTableColumn(this.size);
-
-  @override
-  final double size;
-
-  @override
-  String toString() {
-    return 'TableColumnSize.max(size: $size)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is MaxTableColumn &&
-            (identical(other.size, size) ||
-                const DeepCollectionEquality().equals(other.size, size)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(size);
-
-  @JsonKey(ignore: true)
-  @override
-  $MaxTableColumnCopyWith<MaxTableColumn> get copyWith =>
-      _$MaxTableColumnCopyWithImpl<MaxTableColumn>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int flex) flex,
-    required TResult Function(double size) fixed,
-    required TResult Function(double size) max,
-    required TResult Function(double size) min,
-  }) {
-    return max(size);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int flex)? flex,
-    TResult Function(double size)? fixed,
-    TResult Function(double size)? max,
-    TResult Function(double size)? min,
-    required TResult orElse(),
-  }) {
-    if (max != null) {
-      return max(size);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(FlexTableColumn value) flex,
-    required TResult Function(FixedTableColumn value) fixed,
-    required TResult Function(MaxTableColumn value) max,
-    required TResult Function(MinTableColumn value) min,
-  }) {
-    return max(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(FlexTableColumn value)? flex,
-    TResult Function(FixedTableColumn value)? fixed,
-    TResult Function(MaxTableColumn value)? max,
-    TResult Function(MinTableColumn value)? min,
-    required TResult orElse(),
-  }) {
-    if (max != null) {
-      return max(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class MaxTableColumn implements TableColumnSize {
-  const factory MaxTableColumn(double size) = _$MaxTableColumn;
-
-  double get size => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $MaxTableColumnCopyWith<MaxTableColumn> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MinTableColumnCopyWith<$Res> {
-  factory $MinTableColumnCopyWith(
-          MinTableColumn value, $Res Function(MinTableColumn) then) =
-      _$MinTableColumnCopyWithImpl<$Res>;
-  $Res call({double size});
-}
-
-/// @nodoc
-class _$MinTableColumnCopyWithImpl<$Res>
-    extends _$TableColumnSizeCopyWithImpl<$Res>
-    implements $MinTableColumnCopyWith<$Res> {
-  _$MinTableColumnCopyWithImpl(
-      MinTableColumn _value, $Res Function(MinTableColumn) _then)
-      : super(_value, (v) => _then(v as MinTableColumn));
-
-  @override
-  MinTableColumn get _value => super._value as MinTableColumn;
-
-  @override
-  $Res call({
-    Object? size = freezed,
-  }) {
-    return _then(MinTableColumn(
-      size == freezed
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$MinTableColumn implements MinTableColumn {
-  const _$MinTableColumn(this.size);
-
-  @override
-  final double size;
-
-  @override
-  String toString() {
-    return 'TableColumnSize.min(size: $size)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is MinTableColumn &&
-            (identical(other.size, size) ||
-                const DeepCollectionEquality().equals(other.size, size)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(size);
-
-  @JsonKey(ignore: true)
-  @override
-  $MinTableColumnCopyWith<MinTableColumn> get copyWith =>
-      _$MinTableColumnCopyWithImpl<MinTableColumn>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int flex) flex,
-    required TResult Function(double size) fixed,
-    required TResult Function(double size) max,
-    required TResult Function(double size) min,
-  }) {
-    return min(size);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int flex)? flex,
-    TResult Function(double size)? fixed,
-    TResult Function(double size)? max,
-    TResult Function(double size)? min,
-    required TResult orElse(),
-  }) {
-    if (min != null) {
-      return min(size);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(FlexTableColumn value) flex,
-    required TResult Function(FixedTableColumn value) fixed,
-    required TResult Function(MaxTableColumn value) max,
-    required TResult Function(MinTableColumn value) min,
-  }) {
-    return min(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(FlexTableColumn value)? flex,
-    TResult Function(FixedTableColumn value)? fixed,
-    TResult Function(MaxTableColumn value)? max,
-    TResult Function(MinTableColumn value)? min,
-    required TResult orElse(),
-  }) {
-    if (min != null) {
-      return min(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class MinTableColumn implements TableColumnSize {
-  const factory MinTableColumn(double size) = _$MinTableColumn;
-
-  double get size => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $MinTableColumnCopyWith<MinTableColumn> get copyWith =>
       throw _privateConstructorUsedError;
 }
