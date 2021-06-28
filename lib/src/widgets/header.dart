@@ -55,7 +55,7 @@ class TableHeader<T> extends StatelessWidget {
                 child: child,
               );
 
-              if (isExpanded) {
+             
                 return column.size.when(
                   flex: (flex) => isExpanded
                       ? Expanded(
@@ -71,7 +71,7 @@ class TableHeader<T> extends StatelessWidget {
                     child: child,
                   ),
                 );
-              }
+              
             },
           );
 
