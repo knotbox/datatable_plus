@@ -24,7 +24,7 @@ class _TableRowState<T> extends State<TableRow<T>> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print('did');
+
     color = DataTablePlus.of<T>(context)!
             .rowColor
             ?.call(widget.index, widget.item) ??
