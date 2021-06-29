@@ -89,6 +89,8 @@ class _HomeState extends State<Home> {
       body: SizedBox.expand(
         child: SingleChildScrollView(
           child: DataTablePlus<Model>(
+           rowColor: (_, __) => Colors.blue,
+           rowHoverColor: (_, __) => Colors.blue.shade800,
             header: Container(),
             expandableKey: (index, model) => ObjectKey(model?.subtitle),
             onRowPressed: (index, model) => source.toggleExpansion(

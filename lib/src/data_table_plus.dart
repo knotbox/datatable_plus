@@ -28,6 +28,9 @@ class DataTablePlus<T> extends StatefulWidget {
   ///Color used in specific row
   final Color Function(int, T?)? rowColor;
 
+  ///Color used in specific row when hovered
+  final Color Function(int, T?)? rowHoverColor;
+
   ///Textstyle used for this row
   final TextStyle? Function(int, T?)? rowTextStyle;
 
@@ -77,6 +80,7 @@ class DataTablePlus<T> extends StatefulWidget {
     required this.onRowPressed,
     this.rowColor,
     this.rowTextStyle,
+    this.rowHoverColor,
     this.scrollableTableWidth = 600,
     this.scrollableCellWidth = 200,
     this.availableRowsPerPage = const [10, 20, 50, 100],

@@ -74,12 +74,9 @@ class _TableBodyState<T> extends State<TableBody<T>> {
       );
 
       if (canPressRow) {
-        row = MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            onTap: () => table.onRowPressed!(index, item),
-            child: row,
-          ),
+        row = GestureDetector(
+          onTap: () => table.onRowPressed!(index, item),
+          child: row,
         );
       }
 
