@@ -23,9 +23,6 @@ class DataTablePlusThemeData {
   ///Style used for text in the footer
   final TextStyle? footerTextStyle;
 
-  ///Duration of the color transition when a row is hovered
-  final Duration rowHoverTransitionDuration;
-
   ///Height of each row
   ///
   ///Defaults to [kMinInteractiveDimension]
@@ -38,7 +35,6 @@ class DataTablePlusThemeData {
     this.headerRowTextStyle,
     this.footerTextStyle,
     this.footerColor,
-    this.rowHoverTransitionDuration = const Duration(milliseconds: 150),
     this.footerIconTheme,
   });
 
