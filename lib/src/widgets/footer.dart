@@ -11,7 +11,7 @@ class TableFooter<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final table = DataTablePlus.of<T>(context)!;
     final theme = DataTablePlusThemeData.of(context);
-    var totalPage = (table.source.rowCount / table.source.rowsPerPage).round();
+    var totalPage = (table.source.rowCount / table.source.rowsPerPage).ceil();
     if (totalPage < 1) {
       totalPage = 1;
     }

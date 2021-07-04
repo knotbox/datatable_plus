@@ -61,7 +61,7 @@ class Source extends DataTablePlusSource<Model> {
   }
 
   @override
-  bool get rowsExpandable => true;
+  bool get rowsExpandable => false;
 }
 
 class Home extends StatefulWidget {
@@ -89,23 +89,30 @@ class _HomeState extends State<Home> {
       body: SizedBox.expand(
         child: SingleChildScrollView(
           child: DataTablePlus<Model>(
-           rowColor: (_, __) => Colors.blue,
-           rowHoverColor: (_, __) => Colors.blue.shade800,
-            header: Container(),
-            expandableKey: (index, model) => ObjectKey(model?.subtitle),
-            onRowPressed: (index, model) => source.toggleExpansion(
-              ObjectKey(model?.subtitle),
+            rowColor: (_, __) => Colors.blue,
+            rowHoverColor: (_, __) => Colors.blue.shade800,
+            header: const SizedBox.shrink(),
+            onRowPressed: (index, model) => Future.delayed(
+              const Duration(
+                seconds: 2,
+              ),
+              () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => Scaffold(
+                    appBar: AppBar(
+                      title: Text('TEST'),
+                    ),
+                  ),
+                ),
+              ),
             ),
-            expandedRow: (index, item) {
-              return Container(height: 100, color: Colors.purple);
-            },
-            loading: () => Center(
+            loading: () => const Center(
               child: CircularProgressIndicator(),
             ),
             error: (err) => Center(
               child: Text('ERROR'),
             ),
-            empty: () => SizedBox.shrink(),
+            empty: () => const SizedBox.shrink(),
             source: source,
             columns: [
               TableColumn(
