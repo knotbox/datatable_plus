@@ -1,6 +1,5 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart' hide TableRow;
-
 import '../data_table_plus.dart';
 import 'row.dart';
 
@@ -71,6 +70,7 @@ class _TableBodyState<T> extends State<TableBody<T>> {
         cells: List<Widget>.from(cells),
         index: index,
         item: item,
+        flex: flex,
       );
 
       if (canPressRow) {

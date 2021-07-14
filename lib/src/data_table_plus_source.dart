@@ -29,6 +29,11 @@ abstract class DataTablePlusSource<T> extends ChangeNotifier {
   ///True if all rows in the table are expanded
   bool isFullyExpanded = false;
 
+  ///Selects/Unselects all rows in the table
+  final selectionNotifier = ValueNotifier(false);
+
+  List<T> selected = const [];
+
   ///Map containing a all expandable controllers loaded so far.
   ///When building rows, lazily adds a controller to this map.
   ///[Object] is used as a key, use it to recover the state of the controller when rebuilding the row.
@@ -50,6 +55,16 @@ abstract class DataTablePlusSource<T> extends ChangeNotifier {
     isFullyExpanded = false;
     expandableControllers.values.forEach((e) => e.value = false);
     notifyListeners();
+  }
+
+  ///selectes all rows
+  void selectAll() {
+    selectionNotifier.value = true;
+  }
+
+  ///selectes all rows
+  void deselectAll() {
+    selectionNotifier.value = false;
   }
 
   ///Toggles the expansion of one specific row based on the [Object] key
@@ -166,6 +181,7 @@ abstract class DataTablePlusSource<T> extends ChangeNotifier {
 
   @override
   void dispose() {
+    selectionNotifier.dispose();
     disposeExpandableControllers();
     mounted = false;
     super.dispose();

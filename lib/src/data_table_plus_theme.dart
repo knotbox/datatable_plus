@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class DataTablePlusThemeData {
-  static final DataTablePlusThemeData defaults = DataTablePlusThemeData();
+  static final DataTablePlusThemeData defaults = DataTablePlusThemeData(
+    showCheckboxDelay: const Duration(milliseconds: 300),
+    showCheckboxSlidable: false,
+    rowHeight: kMinInteractiveDimension,
+    rowsPerPageLabel: "",
+  );
 
   static final DataTablePlusThemeData empty = DataTablePlusThemeData();
 
@@ -18,7 +23,7 @@ class DataTablePlusThemeData {
   final IconThemeData? footerIconTheme;
 
   ///Label apprearing before the rowsPerPage dropdown in the footer
-  final String rowsPerPageLabel;
+  final String? rowsPerPageLabel;
 
   ///Style used for text in the footer
   final TextStyle? footerTextStyle;
@@ -26,16 +31,24 @@ class DataTablePlusThemeData {
   ///Height of each row
   ///
   ///Defaults to [kMinInteractiveDimension]
-  final double rowHeight;
+  final double? rowHeight;
+
+  ///Whether to display a checkbox when row is hovered
+  final bool? showCheckboxSlidable;
+
+  ///Delay before showing the checkbox slidable
+  final Duration? showCheckboxDelay;
 
   const DataTablePlusThemeData({
-    this.rowsPerPageLabel = "",
-    this.rowHeight = kMinInteractiveDimension,
+    this.rowsPerPageLabel,
+    this.rowHeight,
     this.headerRowColor,
     this.headerRowTextStyle,
     this.footerTextStyle,
     this.footerColor,
     this.footerIconTheme,
+    this.showCheckboxDelay,
+    this.showCheckboxSlidable,
   });
 
   static DataTablePlusThemeData merge(
@@ -44,19 +57,20 @@ class DataTablePlusThemeData {
       return theme ?? empty;
     } else if (theme == null || theme.isEmpty()) {
       return defaults;
-    } else if (theme.isFull()) {
-      return theme;
     } else {
       return DataTablePlusThemeData(
-        rowHeight: theme.rowHeight,
-        footerColor: theme.footerColor ?? defaults.footerColor,
-        footerTextStyle: theme.footerTextStyle ?? defaults.footerTextStyle,
-        headerRowColor: theme.headerRowColor ?? defaults.headerRowColor,
-        headerRowTextStyle:
-            theme.headerRowTextStyle ?? defaults.headerRowTextStyle,
-        rowsPerPageLabel: theme.rowsPerPageLabel,
-        footerIconTheme: theme.footerIconTheme ?? defaults.footerIconTheme,
-      );
+          rowHeight: theme.rowHeight ?? defaults.rowHeight,
+          footerColor: theme.footerColor ?? defaults.footerColor,
+          footerTextStyle: theme.footerTextStyle ?? defaults.footerTextStyle,
+          headerRowColor: theme.headerRowColor ?? defaults.headerRowColor,
+          headerRowTextStyle:
+              theme.headerRowTextStyle ?? defaults.headerRowTextStyle,
+          rowsPerPageLabel: theme.rowsPerPageLabel ?? defaults.rowsPerPageLabel,
+          footerIconTheme: theme.footerIconTheme ?? defaults.footerIconTheme,
+          showCheckboxDelay:
+              theme.showCheckboxDelay ?? defaults.showCheckboxDelay,
+          showCheckboxSlidable:
+              theme.showCheckboxSlidable ?? defaults.showCheckboxSlidable);
     }
   }
 
@@ -66,13 +80,6 @@ class DataTablePlusThemeData {
 
   bool isEmpty() {
     return this == empty;
-  }
-
-  bool isFull() {
-    return this.footerColor != null &&
-        this.footerTextStyle != null &&
-        this.headerRowColor != null &&
-        this.headerRowTextStyle != null;
   }
 
   bool operator ==(dynamic o) {
@@ -85,7 +92,9 @@ class DataTablePlusThemeData {
           this.headerRowColor == o.headerRowColor &&
           this.headerRowTextStyle == o.headerRowTextStyle &&
           this.rowsPerPageLabel == o.rowsPerPageLabel &&
-          this.footerIconTheme == o.footerIconTheme;
+          this.footerIconTheme == o.footerIconTheme &&
+          this.showCheckboxDelay == o.showCheckboxDelay &&
+          this.showCheckboxSlidable == o.showCheckboxSlidable;
     } else {
       return false;
     }
@@ -106,12 +115,7 @@ class DataTablePlusThemeData {
   static DataTablePlusThemeData withDefaults(
       DataTablePlusThemeData? theme, BuildContext context,
       {bool rebuildOnChange = true}) {
-    if (theme != null && theme.isFull()) {
-      return theme;
-    } else {
-      return merge(
-          merge(theme, of(context, listen: rebuildOnChange)), defaults);
-    }
+    return merge(merge(theme, of(context, listen: rebuildOnChange)), defaults);
   }
 }
 

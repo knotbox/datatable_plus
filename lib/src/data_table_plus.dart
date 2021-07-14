@@ -69,6 +69,9 @@ class DataTablePlus<T> extends StatefulWidget {
   ///Theme of this table
   final DataTablePlusThemeData? theme;
 
+  ///Called when a row is checked/unchecked
+  final void Function(int, T?, bool)? onSelectionChanged;
+
   const DataTablePlus({
     Key? key,
     required this.loading,
@@ -91,6 +94,7 @@ class DataTablePlus<T> extends StatefulWidget {
     this.expandedRow,
     this.expandableKey,
     this.theme,
+    this.onSelectionChanged,
   }) : super(key: key);
 
   static DataTablePlus<T>? of<T>(BuildContext context) =>
@@ -144,7 +148,10 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
   @override
   Widget build(BuildContext context) {
     return DataTablePlusTheme(
-      data: widget.theme ?? DataTablePlusThemeData.defaults,
+      data: DataTablePlusThemeData.merge(
+        widget.theme,
+        DataTablePlusThemeData.defaults,
+      ),
       child: ListView(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),

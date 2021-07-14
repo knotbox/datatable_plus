@@ -1,7 +1,7 @@
 name: datatable_plus
 description: Inspired by the Flutter Material Datatable, offers a simpler API to
   make tables customizable
-version: 0.0.1
+version: 0.0.2
 homepage: null
 
 environment:
@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   expandable: ^5.0.1
+  flutter_slidable: ^0.6.0
   freezed_annotation: ^0.14.1
   linked_scroll_controller: ^0.2.0
 

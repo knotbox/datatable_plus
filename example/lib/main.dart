@@ -61,7 +61,7 @@ class Source extends DataTablePlusSource<Model> {
   }
 
   @override
-  bool get rowsExpandable => false;
+  bool get rowsExpandable => true;
 }
 
 class Home extends StatefulWidget {
@@ -86,90 +86,101 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text('Datatable Plus'),
       ),
-      body: SizedBox.expand(
-        child: SingleChildScrollView(
-          child: DataTablePlus<Model>(
-            rowColor: (_, __) => Colors.blue,
-            rowHoverColor: (_, __) => Colors.blue.shade800,
-            header: const SizedBox.shrink(),
-            onRowPressed: (index, model) => Future.delayed(
-              const Duration(
-                seconds: 2,
-              ),
-              () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => Scaffold(
-                    appBar: AppBar(
-                      title: Text('TEST'),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            error: (err) => Center(
-              child: Text('ERROR'),
-            ),
-            empty: () => const SizedBox.shrink(),
-            source: source,
-            columns: [
-              TableColumn(
-                label: Center(
-                  child: Text('Column 1'),
-                ),
-                cellBuilder: (item) => Center(
-                  child: Text(
-                    item.title,
-                  ),
-                ),
-                canSort: true,
-              ),
-              TableColumn(
-                label: Center(
-                  child: Text('Column 2'),
-                ),
-                cellBuilder: (item) => Center(
-                  child: Text(
-                    item.subtitle,
-                  ),
-                ),
-                canSort: true,
-              ),
-              TableColumn(
-                label: Center(
-                  child: Text('Column 3'),
-                ),
-                cellBuilder: (item) => Center(
-                  child: Text(
-                    'test',
-                  ),
-                ),
-              ),
-              TableColumn(
-                label: Center(
-                  child: Text('Column 4'),
-                ),
-                cellBuilder: (item) => Center(
-                  child: Text(
-                    'test',
-                  ),
-                ),
-              ),
-              TableColumn(
-                label: Center(
-                  child: Text('Column 5'),
-                ),
-                cellBuilder: (item) => Center(
-                  child: Text(
-                    'test',
-                  ),
-                ),
-              ),
-            ],
+      body: Column(
+        children: [
+          TextButton(
+            onPressed: () {
+              if (source.selectionNotifier.value) {
+                source.deselectAll();
+              } else {
+                source.selectAll();
+              }
+            },
+            child: Text('Toggle select all'),
           ),
-        ),
+          Expanded(
+            child: SizedBox.expand(
+              child: SingleChildScrollView(
+                child: DataTablePlus<Model>(
+                  theme: DataTablePlusThemeData(showCheckboxSlidable: true),
+                  rowColor: (_, __) => Colors.blue,
+                  expandableKey: (index, item) => ValueKey(index),
+                  expandedRow: (index, item) => Container(height: 200),
+                  rowHoverColor: (_, __) => Colors.blue.shade800,
+                  header: const SizedBox.shrink(),
+                  onRowPressed: (index, model) => source.toggleExpansion(
+                    ValueKey(index),
+                  ),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  error: (err) => Center(
+                    child: Text('ERROR'),
+                  ),
+                  empty: () => const SizedBox.shrink(),
+                  source: source,
+                  onSelectionChanged: (index, item, isSelected) {
+                    print("$index ${item?.title} $isSelected");
+                  },
+                  columns: [
+                    TableColumn(
+                      label: Center(
+                        child: Text('Column 1'),
+                      ),
+                      cellBuilder: (item) => Center(
+                        child: Text(
+                          item.title,
+                        ),
+                      ),
+                      canSort: true,
+                    ),
+                    TableColumn(
+                      label: Center(
+                        child: Text('Column 2'),
+                      ),
+                      cellBuilder: (item) => Center(
+                        child: Text(
+                          item.subtitle,
+                        ),
+                      ),
+                      canSort: true,
+                    ),
+                    TableColumn(
+                      label: Center(
+                        child: Text('Column 3'),
+                      ),
+                      cellBuilder: (item) => Center(
+                        child: Text(
+                          'test',
+                        ),
+                      ),
+                    ),
+                    TableColumn(
+                      label: Center(
+                        child: Text('Column 4'),
+                      ),
+                      cellBuilder: (item) => Center(
+                        child: Text(
+                          'test',
+                        ),
+                      ),
+                    ),
+                    TableColumn(
+                      label: Center(
+                        child: Text('Column 5'),
+                      ),
+                      cellBuilder: (item) => Center(
+                        child: Text(
+                          'test',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

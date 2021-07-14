@@ -48,11 +48,11 @@ class TableFooter<T> extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    theme.rowsPerPageLabel,
+                                    theme.rowsPerPageLabel!,
                                   ),
                                   const SizedBox(width: 10),
                                   DropdownButton<int>(
-                                    underline: SizedBox.shrink(),
+                                    underline: const SizedBox.shrink(),
                                     value: table.source.rowsPerPage,
                                     items: table.availableRowsPerPage
                                         .map(
