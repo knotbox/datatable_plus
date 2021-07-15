@@ -39,6 +39,9 @@ class DataTablePlusThemeData {
   ///Delay before showing the checkbox slidable
   final Duration? showCheckboxDelay;
 
+  ///Color of the checkboxes
+  final Color? checkboxColor;
+
   const DataTablePlusThemeData({
     this.rowsPerPageLabel,
     this.rowHeight,
@@ -49,6 +52,7 @@ class DataTablePlusThemeData {
     this.footerIconTheme,
     this.showCheckboxDelay,
     this.showCheckboxSlidable,
+    this.checkboxColor,
   });
 
   static DataTablePlusThemeData merge(
@@ -59,18 +63,20 @@ class DataTablePlusThemeData {
       return defaults;
     } else {
       return DataTablePlusThemeData(
-          rowHeight: theme.rowHeight ?? defaults.rowHeight,
-          footerColor: theme.footerColor ?? defaults.footerColor,
-          footerTextStyle: theme.footerTextStyle ?? defaults.footerTextStyle,
-          headerRowColor: theme.headerRowColor ?? defaults.headerRowColor,
-          headerRowTextStyle:
-              theme.headerRowTextStyle ?? defaults.headerRowTextStyle,
-          rowsPerPageLabel: theme.rowsPerPageLabel ?? defaults.rowsPerPageLabel,
-          footerIconTheme: theme.footerIconTheme ?? defaults.footerIconTheme,
-          showCheckboxDelay:
-              theme.showCheckboxDelay ?? defaults.showCheckboxDelay,
-          showCheckboxSlidable:
-              theme.showCheckboxSlidable ?? defaults.showCheckboxSlidable);
+        rowHeight: theme.rowHeight ?? defaults.rowHeight,
+        footerColor: theme.footerColor ?? defaults.footerColor,
+        footerTextStyle: theme.footerTextStyle ?? defaults.footerTextStyle,
+        headerRowColor: theme.headerRowColor ?? defaults.headerRowColor,
+        headerRowTextStyle:
+            theme.headerRowTextStyle ?? defaults.headerRowTextStyle,
+        rowsPerPageLabel: theme.rowsPerPageLabel ?? defaults.rowsPerPageLabel,
+        footerIconTheme: theme.footerIconTheme ?? defaults.footerIconTheme,
+        showCheckboxDelay:
+            theme.showCheckboxDelay ?? defaults.showCheckboxDelay,
+        showCheckboxSlidable:
+            theme.showCheckboxSlidable ?? defaults.showCheckboxSlidable,
+        checkboxColor: theme.checkboxColor ?? defaults.checkboxColor,
+      );
     }
   }
 
@@ -94,7 +100,8 @@ class DataTablePlusThemeData {
           this.rowsPerPageLabel == o.rowsPerPageLabel &&
           this.footerIconTheme == o.footerIconTheme &&
           this.showCheckboxDelay == o.showCheckboxDelay &&
-          this.showCheckboxSlidable == o.showCheckboxSlidable;
+          this.showCheckboxSlidable == o.showCheckboxSlidable &&
+          this.checkboxColor == o.checkboxColor;
     } else {
       return false;
     }

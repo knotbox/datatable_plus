@@ -94,6 +94,7 @@ class _TableRowState<T> extends State<TableRow<T>> {
               SlideAction(
                 color: color,
                 child: Checkbox(
+                  activeColor: theme.checkboxColor,
                   value: isSelected,
                   onChanged: (value) {
                     isSelected = value ?? false;
