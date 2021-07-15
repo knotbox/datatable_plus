@@ -26,12 +26,12 @@ class _TableRowState<T> extends State<TableRow<T>> {
   final key = GlobalKey<SlidableState>();
   var isSelected = false;
   var isHovered = false;
-
-  DataTablePlus<T> get table => DataTablePlus.of<T>(context)!;
+  late DataTablePlus<T> table;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    table = DataTablePlus.of<T>(context)!;
     color =
         table.rowColor?.call(widget.index, widget.item) ?? Colors.transparent;
 
