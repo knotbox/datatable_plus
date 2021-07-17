@@ -1,5 +1,5 @@
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart' hide TableRow;
+
 import '../data_table_plus.dart';
 import 'row.dart';
 
@@ -64,47 +64,14 @@ class _TableBodyState<T> extends State<TableBody<T>> {
         },
       );
 
-      bool canPressRow = item == null ? false : table.onRowPressed != null;
-
-      Widget row = TableRow<T>(
-        cells: List<Widget>.from(cells),
-        index: index,
-        item: item,
-        flex: flex,
+      rows.add(
+        TableRow<T>(
+          cells: List<Widget>.from(cells),
+          index: index,
+          item: item,
+          flex: flex,
+        ),
       );
-
-      if (canPressRow) {
-        row = GestureDetector(
-          onTap: () => table.onRowPressed!(index, item),
-          child: row,
-        );
-      }
-
-      if (table.source.rowsExpandable) {
-        final expandableKey = table.expandableKey!(index, item);
-
-        row = SizedBox(
-          width: flex ? null : table.scrollableTableWidth,
-          child: ExpandablePanel(
-            controller: table.source.expandableControllers.putIfAbsent(
-              expandableKey,
-              () => ExpandableController(
-                initialExpanded: table.source.isFullyExpanded,
-              ),
-            ),
-            collapsed: row,
-            expanded: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                row,
-                table.expandedRow!(index, item),
-              ],
-            ),
-          ),
-        );
-      }
-
-      rows.add(row);
     }
     return rows;
   }

@@ -1,11 +1,12 @@
+import 'package:datatable_plus/src/checkbox_slidable_theme.dart';
 import 'package:flutter/material.dart';
 
 class DataTablePlusThemeData {
   static final DataTablePlusThemeData defaults = DataTablePlusThemeData(
-    showCheckboxDelay: const Duration(milliseconds: 300),
     showCheckboxSlidable: false,
     rowHeight: kMinInteractiveDimension,
     rowsPerPageLabel: "",
+    checkboxSlidableTheme: CheckboxSlidableTheme.defaults,
   );
 
   static final DataTablePlusThemeData empty = DataTablePlusThemeData();
@@ -36,11 +37,7 @@ class DataTablePlusThemeData {
   ///Whether to display a checkbox when row is hovered
   final bool? showCheckboxSlidable;
 
-  ///Delay before showing the checkbox slidable
-  final Duration? showCheckboxDelay;
-
-  ///Color of the checkboxes
-  final Color? checkboxColor;
+  final CheckboxSlidableTheme? checkboxSlidableTheme;
 
   const DataTablePlusThemeData({
     this.rowsPerPageLabel,
@@ -50,9 +47,8 @@ class DataTablePlusThemeData {
     this.footerTextStyle,
     this.footerColor,
     this.footerIconTheme,
-    this.showCheckboxDelay,
+    this.checkboxSlidableTheme,
     this.showCheckboxSlidable,
-    this.checkboxColor,
   });
 
   static DataTablePlusThemeData merge(
@@ -71,11 +67,10 @@ class DataTablePlusThemeData {
             theme.headerRowTextStyle ?? defaults.headerRowTextStyle,
         rowsPerPageLabel: theme.rowsPerPageLabel ?? defaults.rowsPerPageLabel,
         footerIconTheme: theme.footerIconTheme ?? defaults.footerIconTheme,
-        showCheckboxDelay:
-            theme.showCheckboxDelay ?? defaults.showCheckboxDelay,
         showCheckboxSlidable:
             theme.showCheckboxSlidable ?? defaults.showCheckboxSlidable,
-        checkboxColor: theme.checkboxColor ?? defaults.checkboxColor,
+        checkboxSlidableTheme:
+            theme.checkboxSlidableTheme ?? defaults.checkboxSlidableTheme,
       );
     }
   }
@@ -99,9 +94,8 @@ class DataTablePlusThemeData {
           this.headerRowTextStyle == o.headerRowTextStyle &&
           this.rowsPerPageLabel == o.rowsPerPageLabel &&
           this.footerIconTheme == o.footerIconTheme &&
-          this.showCheckboxDelay == o.showCheckboxDelay &&
-          this.showCheckboxSlidable == o.showCheckboxSlidable &&
-          this.checkboxColor == o.checkboxColor;
+          this.checkboxSlidableTheme == o.checkboxSlidableTheme &&
+          this.showCheckboxSlidable == o.showCheckboxSlidable;
     } else {
       return false;
     }
@@ -117,12 +111,6 @@ class DataTablePlusThemeData {
             .dependOnInheritedWidgetOfExactType<_DataTablePlusThemeNotifier>()
         : context.findAncestorWidgetOfExactType<_DataTablePlusThemeNotifier>();
     return notifier?.themeData ?? defaults;
-  }
-
-  static DataTablePlusThemeData withDefaults(
-      DataTablePlusThemeData? theme, BuildContext context,
-      {bool rebuildOnChange = true}) {
-    return merge(merge(theme, of(context, listen: rebuildOnChange)), defaults);
   }
 }
 

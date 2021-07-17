@@ -102,7 +102,17 @@ class _HomeState extends State<Home> {
             child: SizedBox.expand(
               child: SingleChildScrollView(
                 child: DataTablePlus<Model>(
-                  theme: DataTablePlusThemeData(showCheckboxSlidable: true),
+                  theme: DataTablePlusThemeData(
+                    showCheckboxSlidable: true,
+                    checkboxSlidableTheme: CheckboxSlidableTheme(
+                      backgroundColor: Colors.purple,
+                      checkColor: Colors.red,
+                      activeColor: Colors.green,
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.bounceInOut,
+                      indicatorWidth: 10,
+                    ),
+                  ),
                   rowColor: (_, __) => Colors.blue,
                   expandableKey: (index, item) => ValueKey(index),
                   expandedRow: (index, item) => Container(height: 200),

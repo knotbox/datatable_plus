@@ -1,5 +1,5 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../data_table_plus.dart';
 import '../data_table_plus_theme.dart';
@@ -23,7 +23,6 @@ class TableRow<T> extends StatefulWidget {
 
 class _TableRowState<T> extends State<TableRow<T>> {
   late Color color;
-  final key = GlobalKey<SlidableState>();
   var isSelected = false;
   var isHovered = false;
   late DataTablePlus<T> table;
@@ -41,9 +40,9 @@ class _TableRowState<T> extends State<TableRow<T>> {
   void toggleSelect() {
     isSelected = table.source.selectionNotifier.value;
     if (isSelected) {
-      key.currentState?.open();
+      isHovered = true;
     } else {
-      key.currentState?.close();
+      isHovered = false;
     }
     setState(() {});
   }
@@ -57,67 +56,106 @@ class _TableRowState<T> extends State<TableRow<T>> {
   @override
   Widget build(BuildContext context) {
     final theme = DataTablePlusThemeData.of(context);
+    final slidableTheme = theme.checkboxSlidableTheme;
+    bool canPressRow = widget.item == null ? false : table.onRowPressed != null;
 
-    return LayoutBuilder(
+    Widget row = LayoutBuilder(
       builder: (context, constraints) {
         return MouseRegion(
           cursor: SystemMouseCursors.click,
           onEnter: (d) {
-            isHovered = true;
             color = table.rowHoverColor?.call(widget.index, widget.item) ??
                 table.rowColor?.call(widget.index, widget.item) ??
                 Colors.transparent;
-
-            setState(() {});
-            Future.delayed(
-              theme.showCheckboxDelay!,
-              () {
-                if (isHovered) key.currentState?.open();
-              },
-            );
           },
           onExit: (d) {
-            isHovered = false;
             color = table.rowColor?.call(widget.index, widget.item) ??
                 Colors.transparent;
 
+            if (!isSelected) {
+              isHovered = false;
+            }
+
             setState(() {});
-            if (isSelected) return;
-            key.currentState?.close();
           },
-          child: Slidable(
-            enabled: theme.showCheckboxSlidable!,
-            key: key,
-            actionExtentRatio: 0.05,
-            actionPane: const SlidableScrollActionPane(),
-            actions: [
-              SlideAction(
-                color: color,
-                child: Checkbox(
-                  activeColor: theme.checkboxColor,
-                  value: isSelected,
-                  onChanged: (value) {
-                    isSelected = value ?? false;
-                    setState(() {});
-                    table.onSelectionChanged?.call(
-                      widget.index,
-                      widget.item,
-                      isSelected,
-                    );
-                  },
+          onHover: (d) {
+            if (d.localPosition.dx < slidableTheme!.indicatorWidth!) {
+              if (isHovered) return;
+              isHovered = true;
+              setState(() {});
+            }
+          },
+          child: Row(
+            children: [
+              AnimatedContainer(
+                duration: slidableTheme!.duration!,
+                curve: slidableTheme.curve!,
+                color: slidableTheme.backgroundColor,
+                width: isHovered ? 50 : slidableTheme.indicatorWidth,
+                height: theme.rowHeight,
+                child: isHovered
+                    ? Checkbox(
+                        activeColor: slidableTheme.activeColor,
+                        checkColor: slidableTheme.checkColor,
+                        value: isSelected,
+                        onChanged: (value) {
+                          isSelected = value ?? false;
+                          setState(() {});
+                          table.onSelectionChanged?.call(
+                            widget.index,
+                            widget.item,
+                            isSelected,
+                          );
+                        },
+                      )
+                    : null,
+              ),
+              Expanded(
+                child: Container(
+                  height: theme.rowHeight,
+                  color: color,
+                  child: Row(
+                    children: widget.cells,
+                  ),
                 ),
               ),
             ],
-            child: Container(
-              height: theme.rowHeight,
-              color: color,
-              child: Row(
-                children: widget.cells,
-              ),
-            ),
           ),
         );
       },
     );
+
+    if (canPressRow) {
+      row = GestureDetector(
+        onTap: () => table.onRowPressed!(widget.index, widget.item),
+        child: row,
+      );
+    }
+
+    if (table.source.rowsExpandable) {
+      final expandableKey = table.expandableKey!(widget.index, widget.item);
+
+      row = SizedBox(
+        width: widget.flex ? null : table.scrollableTableWidth,
+        child: ExpandablePanel(
+          controller: table.source.expandableControllers.putIfAbsent(
+            expandableKey,
+            () => ExpandableController(
+              initialExpanded: table.source.isFullyExpanded,
+            ),
+          ),
+          collapsed: row,
+          expanded: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              row,
+              table.expandedRow!(widget.index, widget.item),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return row;
   }
 }
