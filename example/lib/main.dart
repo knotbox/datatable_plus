@@ -73,9 +73,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final source = Source();
+  final controller = DataTablePlusController<Model>();
 
   @override
   void dispose() {
+    controller.dispose();
     source.dispose();
     super.dispose();
   }
@@ -90,10 +92,10 @@ class _HomeState extends State<Home> {
         children: [
           TextButton(
             onPressed: () {
-              if (source.selectionNotifier.value) {
-                source.deselectAll();
+              if (controller.isFullyExpanded.value) {
+                controller.closeExpandable();
               } else {
-                source.selectAll();
+                controller.openExpandable();
               }
             },
             child: Text('Toggle select all'),
@@ -102,10 +104,11 @@ class _HomeState extends State<Home> {
             child: SizedBox.expand(
               child: SingleChildScrollView(
                 child: DataTablePlus<Model>(
+                  controller: controller,
+                  checkboxBackgroundColor: (_, __) => Colors.red,
                   theme: DataTablePlusThemeData(
                     showCheckboxSlidable: true,
                     checkboxSlidableTheme: CheckboxSlidableTheme(
-                      backgroundColor: Colors.purple,
                       checkColor: Colors.red,
                       activeColor: Colors.green,
                       duration: Duration(milliseconds: 200),
@@ -118,9 +121,8 @@ class _HomeState extends State<Home> {
                   expandedRow: (index, item) => Container(height: 200),
                   rowHoverColor: (_, __) => Colors.blue.shade800,
                   header: const SizedBox.shrink(),
-                  onRowPressed: (index, model) => source.toggleExpansion(
-                    ValueKey(index),
-                  ),
+                  onRowPressed: (index, model) =>
+                      controller.toggleExpandable(index),
                   loading: () => const Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -130,7 +132,16 @@ class _HomeState extends State<Home> {
                   empty: () => const SizedBox.shrink(),
                   source: source,
                   onSelectionChanged: (index, item, isSelected) {
-                    print("$index ${item?.title} $isSelected");
+                    final range = source.getVisibleRange();
+                    if (controller.selected.isNotEmpty) {
+                      for (int i = range.first; i < range[1]; i++) {
+                        controller.openSlidable(i);
+                      }
+                    } else {
+                      for (int i = range.first; i < range[1]; i++) {
+                        controller.closeSlidable(i);
+                      }
+                    }
                   },
                   columns: [
                     TableColumn(
@@ -143,6 +154,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       canSort: true,
+                      size: FixedTableColumn(400),
                     ),
                     TableColumn(
                       label: Center(

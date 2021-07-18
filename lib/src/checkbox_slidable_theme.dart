@@ -7,14 +7,12 @@ class CheckboxSlidableTheme {
     duration: const Duration(milliseconds: 200),
   );
 
-  final Color? backgroundColor;
   final double? indicatorWidth;
   final Color? activeColor;
   final Color? checkColor;
   final Duration? duration;
   final Curve? curve;
   CheckboxSlidableTheme({
-    this.backgroundColor,
     this.activeColor,
     this.checkColor,
     this.duration,
@@ -23,7 +21,6 @@ class CheckboxSlidableTheme {
   });
 
   CheckboxSlidableTheme copyWith({
-    Color? backgroundColor,
     Color? activeColor,
     Color? checkColor,
     Duration? duration,
@@ -31,7 +28,6 @@ class CheckboxSlidableTheme {
     Curve? curve,
   }) {
     return CheckboxSlidableTheme(
-      backgroundColor: backgroundColor ?? this.backgroundColor,
       activeColor: activeColor ?? this.activeColor,
       checkColor: checkColor ?? this.checkColor,
       duration: duration ?? this.duration,
@@ -42,7 +38,6 @@ class CheckboxSlidableTheme {
 
   CheckboxSlidableTheme merge(CheckboxSlidableTheme other) {
     return CheckboxSlidableTheme(
-      backgroundColor: backgroundColor ?? other.backgroundColor,
       activeColor: activeColor ?? other.activeColor,
       checkColor: checkColor ?? other.checkColor,
       duration: duration ?? other.duration,
@@ -53,7 +48,7 @@ class CheckboxSlidableTheme {
 
   @override
   String toString() {
-    return 'CheckboxSlidableTheme(backgroundColor: $backgroundColor, activeColor: $activeColor, checkColor: $checkColor, duration: $duration, curve: $curve)';
+    return 'CheckboxSlidableTheme(activeColor: $activeColor, checkColor: $checkColor, duration: $duration, curve: $curve)';
   }
 
   @override
@@ -61,7 +56,6 @@ class CheckboxSlidableTheme {
     if (identical(this, other)) return true;
 
     return other is CheckboxSlidableTheme &&
-        other.backgroundColor == backgroundColor &&
         other.activeColor == activeColor &&
         other.checkColor == checkColor &&
         other.duration == duration &&
@@ -70,8 +64,7 @@ class CheckboxSlidableTheme {
 
   @override
   int get hashCode {
-    return backgroundColor.hashCode ^
-        activeColor.hashCode ^
+    return activeColor.hashCode ^
         checkColor.hashCode ^
         duration.hashCode ^
         curve.hashCode;

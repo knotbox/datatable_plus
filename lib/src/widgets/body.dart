@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart' hide TableRow;
-
+import '../../datatable_plus.dart';
 import '../data_table_plus.dart';
 import 'row.dart';
 
@@ -7,90 +7,61 @@ class TableBody<T> extends StatelessWidget {
   const TableBody({
     Key? key,
     required this.data,
-    required this.scrollController,
+    required this.maxWidth,
+    required this.cellSizes,
   }) : super(key: key);
 
   final List<T> data;
-  final ScrollController scrollController;
+  final double maxWidth;
+  final List<double> cellSizes;
 
   @override
   Widget build(BuildContext context) {
     final table = DataTablePlus.of<T>(context)!;
 
-    List<Widget> getRows(bool flex) {
-      final length =
-          table.addEmptyRows ? table.source.rowsPerPage : data.length;
-      final rows = <Widget>[];
+    final length = table.addEmptyRows ? table.source.rowsPerPage : data.length;
+    final rows = <Widget>[];
 
-      for (var index = 0; index < length; index++) {
-        final item = index >= data.length ? null : data[index];
-        final textStyle = table.rowTextStyle?.call(index, item) ??
-            DefaultTextStyle.of(context).style;
+    for (var index = 0; index < length; index++) {
+      final item = index >= data.length ? null : data[index];
+      final realIndex = index + (table.source.page * length);
+      final textStyle = table.rowTextStyle?.call(realIndex, item) ??
+          DefaultTextStyle.of(context).style;
 
-        final cells = List.generate(
-          table.columns.length,
-          (columnIndex) {
-            Widget child;
+      final cells = List<Widget>.generate(
+        table.columns.length,
+        (columnIndex) {
+          Widget child;
 
-            final column = table.columns[columnIndex];
-            if (index >= data.length) {
-              child = const SizedBox.shrink();
-            } else {
-              child = Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: DefaultTextStyle(
-                  style: textStyle,
-                  child: column.cellBuilder(item!),
-                ),
-              );
-            }
-
-            return column.size.when(
-              flex: (flexFactor) => flex
-                  ? Expanded(
-                      flex: flexFactor,
-                      child: child,
-                    )
-                  : SizedBox(
-                      width: table.scrollableCellWidth,
-                      child: child,
-                    ),
-              fixed: (size) => SizedBox(
-                width: size,
-                child: child,
+          final column = table.columns[columnIndex];
+          if (index >= data.length) {
+            child = const SizedBox.shrink();
+          } else {
+            child = Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: DefaultTextStyle(
+                style: textStyle,
+                child: column.cellBuilder(item!),
               ),
             );
-          },
-        );
+          }
 
-        rows.add(
-          TableRow<T>(
-            cells: List<Widget>.from(cells),
-            index: index,
-            item: item,
-            flex: flex,
-          ),
-        );
-      }
-      return rows;
+          return child;
+        },
+      );
+
+      rows.add(
+        TableRow<T>(
+          cells: cells,
+          index: realIndex,
+          item: item,
+          sizes: cellSizes,
+        ),
+      );
     }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.minWidth < table.scrollableTableWidth) {
-          return SingleChildScrollView(
-            key: ValueKey(constraints.minWidth),
-            controller: scrollController,
-            scrollDirection: Axis.horizontal,
-            child: Column(
-              children: getRows(false),
-            ),
-          );
-        }
-        return Column(
-          children: getRows(true),
-        );
-      },
+    return Column(
+      children: rows,
     );
   }
 }

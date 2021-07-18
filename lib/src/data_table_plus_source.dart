@@ -26,50 +26,12 @@ abstract class DataTablePlusSource<T> extends ChangeNotifier {
   ///Current rows per page
   int rowsPerPage = 10;
 
-  ///True if all rows in the table are expanded
-  bool isFullyExpanded = false;
-
-  ///Selects/Unselects all rows in the table
-  final selectionNotifier = ValueNotifier(false);
-
-  List<T> selected = const [];
-
-  ///Map containing a all expandable controllers loaded so far.
-  ///When building rows, lazily adds a controller to this map.
-  ///[Object] is used as a key, use it to recover the state of the controller when rebuilding the row.
-  Map<Object, ExpandableController> expandableControllers = {};
-
   ///Tracks whether this change notifier was disposed or not
   @protected
   bool mounted = true;
 
-  ///Expands all rows
-  void expandAll() {
-    isFullyExpanded = true;
-    expandableControllers.values.forEach((e) => e.value = true);
-    notifyListeners();
-  }
-
-  ///Retracts all rows
-  void retractAll() {
-    isFullyExpanded = false;
-    expandableControllers.values.forEach((e) => e.value = false);
-    notifyListeners();
-  }
-
-  ///selectes all rows
-  void selectAll() {
-    selectionNotifier.value = true;
-  }
-
-  ///selectes all rows
-  void deselectAll() {
-    selectionNotifier.value = false;
-  }
-
-  ///Toggles the expansion of one specific row based on the [Object] key
-  void toggleExpansion(Object key) {
-    expandableControllers[key]?.toggle();
+  List<int> getVisibleRange() {
+    return [rowsPerPage * page, (rowsPerPage * page) + rowsPerPage];
   }
 
   @mustCallSuper
@@ -172,17 +134,8 @@ abstract class DataTablePlusSource<T> extends ChangeNotifier {
   ///If functions throws error, automatically catches it and shows error widget.
   Future<List<T>> fetchPage(PageRequest request);
 
-  @protected
-  void disposeExpandableControllers() {
-    expandableControllers.values.map(
-      (e) => e.dispose(),
-    );
-  }
-
   @override
   void dispose() {
-    selectionNotifier.dispose();
-    disposeExpandableControllers();
     mounted = false;
     super.dispose();
   }

@@ -11,9 +11,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  collection: ^1.15.0
   expandable: ^5.0.1
   freezed_annotation: ^0.14.1
-  linked_scroll_controller: ^0.2.0
 
 dev_dependencies:
   flutter_test:

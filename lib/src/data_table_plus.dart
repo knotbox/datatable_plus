@@ -1,6 +1,9 @@
+import 'package:collection/collection.dart';
+import 'package:datatable_plus/src/data_table_plus_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:linked_scroll_controller/linked_scroll_controller.dart';
+
+import 'package:datatable_plus/datatable_plus.dart';
 
 import 'data_table_plus_source.dart';
 import 'data_table_plus_theme.dart';
@@ -72,8 +75,15 @@ class DataTablePlus<T> extends StatefulWidget {
   ///Called when a row is checked/unchecked
   final void Function(int, T?, bool)? onSelectionChanged;
 
+  ///Color used for the background and checkbox slidable indicator for a row
+  final Color Function(int, T?)? checkboxBackgroundColor;
+
+  ///Table controller which is used to expand/retract expandables and slidables.
+  final DataTablePlusController controller;
+
   const DataTablePlus({
     Key? key,
+    required this.controller,
     required this.loading,
     required this.error,
     required this.header,
@@ -94,6 +104,7 @@ class DataTablePlus<T> extends StatefulWidget {
     this.expandedRow,
     this.expandableKey,
     this.theme,
+    this.checkboxBackgroundColor,
     this.onSelectionChanged,
   }) : super(key: key);
 
@@ -105,15 +116,10 @@ class DataTablePlus<T> extends StatefulWidget {
 }
 
 class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
-  final scrollGroup = LinkedScrollControllerGroup();
-  late ScrollController headerController;
-  late ScrollController bodyController;
-
   @override
   void initState() {
     super.initState();
-    bodyController = scrollGroup.addAndGet();
-    headerController = scrollGroup.addAndGet();
+
     widget.source.addListener(_update);
     //Loads the page
     Future.microtask(
@@ -131,8 +137,7 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
   @override
   void dispose() {
     widget.source.removeListener(_update);
-    bodyController.dispose();
-    headerController.dispose();
+
     super.dispose();
   }
 
@@ -152,25 +157,62 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
         widget.theme,
         DataTablePlusThemeData.defaults,
       ),
-      child: ListView(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          widget.header,
-          TableHeader<T>(
-            scrollController: headerController,
-          ),
-          widget.source.value.when(
-            empty: widget.empty,
-            data: (data) => TableBody<T>(
-              data: data,
-              scrollController: bodyController,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final maxWidth = constraints.minWidth > widget.scrollableTableWidth
+              ? constraints.minWidth
+              : widget.scrollableTableWidth;
+
+          double flexSum = widget.columns
+              .map((e) => e.size)
+              .whereType<FlexTableColumn>()
+              .fold<double>(0, (prev, curr) => prev += curr.flex);
+
+          double fixedSum = widget.columns
+              .map((e) => e.size)
+              .whereType<FixedTableColumn>()
+              .fold<double>(0, (prev, curr) => prev += curr.size);
+
+          final cellSizes = List.filled(widget.columns.length, 0.0);
+
+          widget.columns.map((e) => e.size).forEachIndexed(
+            (index, columnSize) {
+              cellSizes[index] = columnSize.when(
+                flex: (flex) => (maxWidth - fixedSum) / flexSum * flex,
+                fixed: (size) => size,
+              );
+            },
+          );
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: maxWidth,
+              child: ListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  widget.header,
+                  TableHeader<T>(
+                    maxWidth: maxWidth,
+                    cellSizes: cellSizes,
+                  ),
+                  widget.source.value.when(
+                    empty: widget.empty,
+                    data: (data) => TableBody<T>(
+                      data: data,
+                      maxWidth: maxWidth,
+                      cellSizes: cellSizes,
+                    ),
+                    loading: widget.loading,
+                    error: widget.error,
+                  ),
+                  TableFooter<T>()
+                ],
+              ),
             ),
-            loading: widget.loading,
-            error: widget.error,
-          ),
-          TableFooter<T>()
-        ],
+          );
+        },
       ),
     );
   }
