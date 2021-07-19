@@ -106,6 +106,7 @@ class _HomeState extends State<Home> {
             child: SizedBox.expand(
               child: SingleChildScrollView(
                 child: DataTablePlus<Model>(
+                  shrinkableColumnIndex: 1,
                   controller: controller,
                   checkboxBackgroundColor: (_, __) => Colors.red,
                   theme: DataTablePlusThemeData(
@@ -146,6 +147,35 @@ class _HomeState extends State<Home> {
                   },
                   columns: [
                     TableColumn(
+                      label: const SizedBox.shrink(),
+                      cellBuilder: (index, item) => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.check),
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.check),
+                            onPressed: () {},
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Tooltip(
+                              message: "Test",
+                              child: Center(
+                                child: CircleAvatar(
+                                  radius: 4,
+                                  backgroundColor: Colors.blue,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      size: TableColumnSize.fixed(200),
+                    ),
+                    TableColumn(
                       label: Center(
                         child: Text('Column 1'),
                       ),
@@ -169,7 +199,6 @@ class _HomeState extends State<Home> {
                         );
                       },
                       canSort: true,
-                      size: FixedTableColumn(400),
                     ),
                     TableColumn(
                       label: Center(

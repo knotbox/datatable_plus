@@ -28,7 +28,7 @@ class TableRow<T> extends StatefulWidget {
 }
 
 class _TableRowState<T> extends State<TableRow<T>>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late Color color;
   late bool isSelected;
   late DataTablePlus<T> table;
@@ -147,7 +147,6 @@ class _TableRowState<T> extends State<TableRow<T>>
     expandableController.dispose();
     sub?.cancel();
     controller.dispose();
-
     super.dispose();
   }
 
@@ -215,12 +214,10 @@ class _TableRowState<T> extends State<TableRow<T>>
                   children: widget.cells.mapIndexed(
                     (index, e) {
                       return SizedBox(
-                        width: widget.sizes[index] - (animation.value / 5),
-                        child: Transform.translate(
-                          offset:
-                              Offset(animation.value / 5 * (5 - index) * -1, 0),
-                          child: e,
-                        ),
+                        width: index == table.shrinkableColumnIndex
+                            ? widget.sizes[index] - animation.value
+                            : widget.sizes[index],
+                        child: e,
                       );
                     },
                   ).toList(),

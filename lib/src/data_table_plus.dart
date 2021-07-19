@@ -72,6 +72,11 @@ class DataTablePlus<T> extends StatefulWidget {
   ///Table controller which is used to expand/retract expandables and slidables.
   final DataTablePlusController controller;
 
+  ///Column to shrink when opening the checkbox slidable
+  ///
+  ///Defaults to the first column if not specified
+  final int shrinkableColumnIndex;
+
   const DataTablePlus({
     Key? key,
     required this.controller,
@@ -82,6 +87,7 @@ class DataTablePlus<T> extends StatefulWidget {
     required this.source,
     required this.empty,
     required this.onRowPressed,
+    this.shrinkableColumnIndex = 0,
     this.rowColor,
     this.rowTextStyle,
     this.rowHoverColor,

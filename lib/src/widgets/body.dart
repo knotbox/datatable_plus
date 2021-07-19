@@ -18,12 +18,11 @@ class TableBody<T> extends StatelessWidget {
     final table = DataTablePlus.of<T>(context)!;
     final controller = table.controller as DataTablePlusController<T>;
 
-    final length = table.source.rowsPerPage;
     final rows = <Widget>[];
 
-    for (var index = 0; index < length; index++) {
+    for (var index = 0; index < data.length; index++) {
       final item = data[index];
-      final realIndex = index + (table.source.page * length);
+      final realIndex = index + (table.source.page * data.length);
       final textStyle = table.rowTextStyle?.call(realIndex, item) ??
           DefaultTextStyle.of(context).style;
 

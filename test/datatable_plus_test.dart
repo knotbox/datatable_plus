@@ -23,6 +23,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: DataTablePlus<Map<String, dynamic>>(
+              shrinkableColumnIndex: 1,
               controller: controller,
               source: source,
               onRowPressed: (_, __) => log.add('row-pressed'),
