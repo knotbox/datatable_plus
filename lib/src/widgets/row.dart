@@ -185,27 +185,28 @@ class _TableRowState<T> extends State<TableRow<T>>
         animation: animation,
         builder: (context, _) => Row(
           children: [
-            Container(
-              color: table.checkboxBackgroundColor?.call(
-                widget.index,
-                widget.item,
+            if (theme.showCheckboxSlidable ?? false)
+              Container(
+                color: table.checkboxBackgroundColor?.call(
+                  widget.index,
+                  widget.item,
+                ),
+                width: animation.value,
+                height: theme.rowHeight,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 100),
+                  child: animation.value > 25
+                      ? Checkbox(
+                          activeColor: slidableTheme!.activeColor,
+                          checkColor: slidableTheme.checkColor,
+                          value: isSelected,
+                          onChanged: (value) {
+                            onToggleSelection(value ?? false);
+                          },
+                        )
+                      : const SizedBox.shrink(),
+                ),
               ),
-              width: animation.value,
-              height: theme.rowHeight,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 100),
-                child: animation.value > 25
-                    ? Checkbox(
-                        activeColor: slidableTheme!.activeColor,
-                        checkColor: slidableTheme.checkColor,
-                        value: isSelected,
-                        onChanged: (value) {
-                          onToggleSelection(value ?? false);
-                        },
-                      )
-                    : const SizedBox.shrink(),
-              ),
-            ),
             Expanded(
               child: Container(
                 height: theme.rowHeight,
