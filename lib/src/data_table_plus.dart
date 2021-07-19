@@ -58,10 +58,7 @@ class DataTablePlus<T> extends StatefulWidget {
   final Widget Function(int, T)? expandedRow;
 
   ///The minimum table width before making rows horizontally scrollable
-  final double scrollableTableWidth;
-
-  ///The default cell with of normally expanded cell when the table is made scrollable
-  final double scrollableCellWidth;
+  final double minWidth;
 
   ///Theme of this table
   final DataTablePlusThemeData? theme;
@@ -88,8 +85,7 @@ class DataTablePlus<T> extends StatefulWidget {
     this.rowColor,
     this.rowTextStyle,
     this.rowHoverColor,
-    this.scrollableTableWidth = 600,
-    this.scrollableCellWidth = 200,
+    this.minWidth = 600,
     this.availableRowsPerPage = const [10, 20, 50, 100],
     this.showRowPerPageSelection = true,
     this.onPageChanged,
@@ -150,9 +146,9 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final maxWidth = constraints.minWidth > widget.scrollableTableWidth
+          final width = constraints.minWidth > widget.minWidth
               ? constraints.minWidth
-              : widget.scrollableTableWidth;
+              : widget.minWidth;
 
           double flexSum = widget.columns
               .map((e) => e.size)
@@ -169,7 +165,7 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
           widget.columns.map((e) => e.size).forEachIndexed(
             (index, columnSize) {
               cellSizes[index] = columnSize.when(
-                flex: (flex) => (maxWidth - fixedSum) / flexSum * flex,
+                flex: (flex) => (width - fixedSum) / flexSum * flex,
                 fixed: (size) => size,
               );
             },
@@ -178,21 +174,19 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: SizedBox(
-              width: maxWidth,
+              width: width,
               child: ListView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   widget.header,
                   TableHeader<T>(
-                    maxWidth: maxWidth,
                     cellSizes: cellSizes,
                   ),
                   widget.source.value.when(
                     empty: widget.empty,
                     data: (data) => TableBody<T>(
                       data: data,
-                      maxWidth: maxWidth,
                       cellSizes: cellSizes,
                     ),
                     loading: widget.loading,

@@ -5,10 +5,8 @@ import '../data_table_plus.dart';
 import '../data_table_plus_theme.dart';
 
 class TableHeader<T> extends StatelessWidget {
-  const TableHeader({Key? key, required this.maxWidth, required this.cellSizes})
-      : super(key: key);
+  const TableHeader({Key? key, required this.cellSizes}) : super(key: key);
 
-  final double maxWidth;
   final List<double> cellSizes;
 
   @override

@@ -11,6 +11,11 @@ class DataTablePlusController<T> {
   ///Selected items are identified by an object given by [primaryKey] & data [T]
   final Map<Object, T> selected = {};
 
+  ///List of expanded items in the table.
+  final expanded = ValueNotifier<List<Object>>([]);
+
+  final retracted = <Object>[];
+
   ///Primary key used to store information about an item
   final Object Function(T) primaryKey;
 
@@ -42,22 +47,25 @@ class DataTablePlusController<T> {
 
   ///Opens a particular expandable. [index] can be null to open all the expandables.
   void openExpandable([int? index]) {
+    if (index == null) {
+      isFullyExpanded.value = true;
+      retracted.clear();
+    }
     _streamController.add(
       Action(ActionType.openExpandable, index),
     );
-    if (index == null) {
-      isFullyExpanded.value = true;
-    }
   }
 
   ///Closes a particular expandable. [index] can be null to close all the expandables.
   void closeExpandable([int? index]) {
+    if (index == null) {
+      isFullyExpanded.value = false;
+      retracted.clear();
+      expanded.value = [];
+    }
     _streamController.add(
       Action(ActionType.closeExpandable, index),
     );
-    if (index == null) {
-      isFullyExpanded.value = false;
-    }
   }
 
   ///Opens a particular slidable.
@@ -90,6 +98,7 @@ class DataTablePlusController<T> {
 
   @mustCallSuper
   void dispose() {
+    expanded.dispose();
     isFullyExpanded.dispose();
     _streamController.close();
   }

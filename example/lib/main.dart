@@ -149,11 +149,25 @@ class _HomeState extends State<Home> {
                       label: Center(
                         child: Text('Column 1'),
                       ),
-                      cellBuilder: (item) => Center(
-                        child: Text(
-                          item.title,
-                        ),
-                      ),
+                      cellBuilder: (index, item) {
+                        return ValueListenableBuilder<List<Object>>(
+                          valueListenable: controller.expanded,
+                          builder: (_, expanded, __) {
+                            final isExpanded =
+                                !controller.retracted.contains(item.subtitle) &&
+                                    (expanded.contains(item.subtitle) ||
+                                        controller.isFullyExpanded.value);
+                            return Center(
+                              child: Text(
+                                item.title,
+                                style: TextStyle(
+                                  color: isExpanded ? Colors.red : null,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
                       canSort: true,
                       size: FixedTableColumn(400),
                     ),
@@ -161,7 +175,7 @@ class _HomeState extends State<Home> {
                       label: Center(
                         child: Text('Column 2'),
                       ),
-                      cellBuilder: (item) => Center(
+                      cellBuilder: (index, item) => Center(
                         child: Text(
                           item.subtitle,
                         ),
@@ -172,7 +186,7 @@ class _HomeState extends State<Home> {
                       label: Center(
                         child: Text('Column 3'),
                       ),
-                      cellBuilder: (item) => Center(
+                      cellBuilder: (index, item) => Center(
                         child: Text(
                           'test',
                         ),
@@ -182,7 +196,7 @@ class _HomeState extends State<Home> {
                       label: Center(
                         child: Text('Column 4'),
                       ),
-                      cellBuilder: (item) => Center(
+                      cellBuilder: (index, item) => Center(
                         child: Text(
                           'test',
                         ),
@@ -192,7 +206,7 @@ class _HomeState extends State<Home> {
                       label: Center(
                         child: Text('Column 5'),
                       ),
-                      cellBuilder: (item) => Center(
+                      cellBuilder: (index, item) => Center(
                         child: Text(
                           'test',
                         ),

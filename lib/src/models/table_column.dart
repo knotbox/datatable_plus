@@ -9,7 +9,7 @@ class TableColumn<T> with _$TableColumn<T> {
   factory TableColumn({
     @Default(TableColumnSize.flex(1)) TableColumnSize size,
     required Widget label,
-    required Widget Function(T) cellBuilder,
+    required Widget Function(int, T) cellBuilder,
     @Default(false) bool canSort,
   }) = _TableColumn;
 }

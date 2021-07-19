@@ -77,15 +77,15 @@ void main() {
               columns: [
                 TableColumn(
                   label: Text('Column'),
-                  cellBuilder: (_) => const SizedBox.shrink(),
+                  cellBuilder: (_, __) => const SizedBox.shrink(),
                 ),
                 TableColumn(
                   label: Text('Column'),
-                  cellBuilder: (_) => const SizedBox.shrink(),
+                  cellBuilder: (_, __) => const SizedBox.shrink(),
                 ),
                 TableColumn(
                   label: Text('Column'),
-                  cellBuilder: (_) => const SizedBox.shrink(),
+                  cellBuilder: (_, __) => const SizedBox.shrink(),
                 ),
               ],
             ),

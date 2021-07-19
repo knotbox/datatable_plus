@@ -33,17 +33,17 @@ void main() {
               columns: [
                 TableColumn(
                   label: Text('Column 1'),
-                  cellBuilder: (_) => Container(),
+                  cellBuilder: (_, __) => Container(),
                   canSort: true,
                 ),
                 TableColumn(
                   label: Text('Column 2'),
-                  cellBuilder: (_) => Container(),
+                  cellBuilder: (_, __) => Container(),
                   canSort: true,
                 ),
                 TableColumn(
                   label: Text('Column 3'),
-                  cellBuilder: (_) => Container(),
+                  cellBuilder: (_, __) => Container(),
                   canSort: true,
                 ),
               ],

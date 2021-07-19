@@ -19,7 +19,7 @@ class _$TableColumnTearOff {
   _TableColumn<T> call<T>(
       {TableColumnSize size = const TableColumnSize.flex(1),
       required Widget label,
-      required Widget Function(T) cellBuilder,
+      required Widget Function(int, T) cellBuilder,
       bool canSort = false}) {
     return _TableColumn<T>(
       size: size,
@@ -37,7 +37,7 @@ const $TableColumn = _$TableColumnTearOff();
 mixin _$TableColumn<T> {
   TableColumnSize get size => throw _privateConstructorUsedError;
   Widget get label => throw _privateConstructorUsedError;
-  Widget Function(T) get cellBuilder => throw _privateConstructorUsedError;
+  Widget Function(int, T) get cellBuilder => throw _privateConstructorUsedError;
   bool get canSort => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -53,7 +53,7 @@ abstract class $TableColumnCopyWith<T, $Res> {
   $Res call(
       {TableColumnSize size,
       Widget label,
-      Widget Function(T) cellBuilder,
+      Widget Function(int, T) cellBuilder,
       bool canSort});
 
   $TableColumnSizeCopyWith<$Res> get size;
@@ -87,7 +87,7 @@ class _$TableColumnCopyWithImpl<T, $Res>
       cellBuilder: cellBuilder == freezed
           ? _value.cellBuilder
           : cellBuilder // ignore: cast_nullable_to_non_nullable
-              as Widget Function(T),
+              as Widget Function(int, T),
       canSort: canSort == freezed
           ? _value.canSort
           : canSort // ignore: cast_nullable_to_non_nullable
@@ -113,7 +113,7 @@ abstract class _$TableColumnCopyWith<T, $Res>
   $Res call(
       {TableColumnSize size,
       Widget label,
-      Widget Function(T) cellBuilder,
+      Widget Function(int, T) cellBuilder,
       bool canSort});
 
   @override
@@ -150,7 +150,7 @@ class __$TableColumnCopyWithImpl<T, $Res>
       cellBuilder: cellBuilder == freezed
           ? _value.cellBuilder
           : cellBuilder // ignore: cast_nullable_to_non_nullable
-              as Widget Function(T),
+              as Widget Function(int, T),
       canSort: canSort == freezed
           ? _value.canSort
           : canSort // ignore: cast_nullable_to_non_nullable
@@ -174,7 +174,7 @@ class _$_TableColumn<T> implements _TableColumn<T> {
   @override
   final Widget label;
   @override
-  final Widget Function(T) cellBuilder;
+  final Widget Function(int, T) cellBuilder;
   @JsonKey(defaultValue: false)
   @override
   final bool canSort;
@@ -217,7 +217,7 @@ abstract class _TableColumn<T> implements TableColumn<T> {
   factory _TableColumn(
       {TableColumnSize size,
       required Widget label,
-      required Widget Function(T) cellBuilder,
+      required Widget Function(int, T) cellBuilder,
       bool canSort}) = _$_TableColumn<T>;
 
   @override
@@ -225,7 +225,7 @@ abstract class _TableColumn<T> implements TableColumn<T> {
   @override
   Widget get label => throw _privateConstructorUsedError;
   @override
-  Widget Function(T) get cellBuilder => throw _privateConstructorUsedError;
+  Widget Function(int, T) get cellBuilder => throw _privateConstructorUsedError;
   @override
   bool get canSort => throw _privateConstructorUsedError;
   @override

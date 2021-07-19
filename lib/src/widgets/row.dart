@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:datatable_plus/src/models/controller_action.dart';
 import 'package:expandable/expandable.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Action;
 import 'package:collection/collection.dart';
 
 import '../../datatable_plus.dart';
@@ -41,6 +41,66 @@ class _TableRowState<T> extends State<TableRow<T>>
   DataTablePlusController<T> get tableController =>
       table.controller as DataTablePlusController<T>;
 
+  void handleEvent(Action event) {
+    switch (event.type) {
+      case ActionType.openExpandable:
+        onToggleExpanded(false);
+        expandableController.value = true;
+        break;
+      case ActionType.closeExpandable:
+        onToggleExpanded(true);
+        expandableController.value = false;
+        break;
+      case ActionType.openSlidable:
+        controller.forward();
+        break;
+      case ActionType.closeSlidable:
+        controller.reverse();
+        break;
+      case ActionType.toggleExpandable:
+        onToggleExpanded(expandableController.value);
+        expandableController.value = !expandableController.value;
+        break;
+      case ActionType.select:
+        onToggleSelection(true);
+        break;
+      case ActionType.unselect:
+        onToggleSelection(false);
+        break;
+    }
+  }
+
+  void onToggleExpanded(bool expanded) {
+    final key = tableController.primaryKey(widget.item);
+    if (expanded) {
+      tableController.retracted.add(key);
+      tableController.expanded.value = [
+        ...tableController.expanded.value,
+      ]..remove(key);
+    } else {
+      tableController.retracted.remove(key);
+      tableController.expanded.value = [...tableController.expanded.value, key];
+    }
+  }
+
+  void onToggleSelection(bool selected) {
+    isSelected = selected;
+    if (isSelected) {
+      tableController.selected[tableController.primaryKey(widget.item!)] =
+          widget.item!;
+    } else {
+      tableController.selected.remove(
+        tableController.primaryKey(widget.item!),
+      );
+    }
+    setState(() {});
+    table.onSelectionChanged?.call(
+      widget.index,
+      widget.item,
+      isSelected,
+    );
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -52,7 +112,10 @@ class _TableRowState<T> extends State<TableRow<T>>
 
     if (_init) {
       expandableController = ExpandableController(
-        initialExpanded: tableController.isFullyExpanded.value,
+        initialExpanded: tableController.isFullyExpanded.value ||
+            tableController.expanded.value.contains(
+              tableController.primaryKey(widget.item),
+            ),
       );
       isSelected = tableController.selected.containsKey(
         tableController.primaryKey(widget.item!),
@@ -60,33 +123,7 @@ class _TableRowState<T> extends State<TableRow<T>>
 
       sub = table.controller.events
           .where((event) => event.index == widget.index || event.index == null)
-          .listen(
-        (event) {
-          switch (event.type) {
-            case ActionType.openExpandable:
-              expandableController.value = true;
-              break;
-            case ActionType.closeExpandable:
-              expandableController.value = false;
-              break;
-            case ActionType.openSlidable:
-              controller.forward();
-              break;
-            case ActionType.closeSlidable:
-              controller.reverse();
-              break;
-            case ActionType.toggleExpandable:
-              expandableController.value = !expandableController.value;
-              break;
-            case ActionType.select:
-              onToggleSelection(true);
-              break;
-            case ActionType.unselect:
-              onToggleSelection(false);
-              break;
-          }
-        },
-      );
+          .listen(handleEvent);
 
       controller = AnimationController(
         vsync: this,
@@ -103,24 +140,6 @@ class _TableRowState<T> extends State<TableRow<T>>
         ),
       );
     }
-  }
-
-  onToggleSelection(bool selected) {
-    isSelected = selected;
-    if (isSelected) {
-      tableController.selected[tableController.primaryKey(widget.item!)] =
-          widget.item!;
-    } else {
-      tableController.selected.remove(
-        tableController.primaryKey(widget.item!),
-      );
-    }
-    setState(() {});
-    table.onSelectionChanged?.call(
-      widget.index,
-      widget.item,
-      isSelected,
-    );
   }
 
   @override

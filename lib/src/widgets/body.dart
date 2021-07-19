@@ -7,12 +7,10 @@ class TableBody<T> extends StatelessWidget {
   const TableBody({
     Key? key,
     required this.data,
-    required this.maxWidth,
     required this.cellSizes,
   }) : super(key: key);
 
   final List<T> data;
-  final double maxWidth;
   final List<double> cellSizes;
 
   @override
@@ -42,7 +40,7 @@ class TableBody<T> extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: DefaultTextStyle(
                 style: textStyle,
-                child: column.cellBuilder(item!),
+                child: column.cellBuilder(realIndex, item),
               ),
             );
           }
