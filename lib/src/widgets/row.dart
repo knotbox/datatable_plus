@@ -153,6 +153,7 @@ class _TableRowState<T> extends State<TableRow<T>>
   @override
   Widget build(BuildContext context) {
     final theme = DataTablePlusThemeData.of(context);
+    final hasCheckbox = theme.showCheckboxSlidable ?? false;
     final slidableTheme = theme.checkboxSlidableTheme;
     bool canPressRow = widget.item == null ? false : table.onRowPressed != null;
 
@@ -185,7 +186,7 @@ class _TableRowState<T> extends State<TableRow<T>>
         animation: animation,
         builder: (context, _) => Row(
           children: [
-            if (theme.showCheckboxSlidable ?? false)
+            if (hasCheckbox)
               Container(
                 color: table.checkboxBackgroundColor?.call(
                   widget.index,
@@ -215,8 +216,10 @@ class _TableRowState<T> extends State<TableRow<T>>
                   children: widget.cells.mapIndexed(
                     (index, e) {
                       return SizedBox(
-                        width: index == table.shrinkableColumnIndex
-                            ? widget.sizes[index] - animation.value
+                        width: hasCheckbox
+                            ? index == table.shrinkableColumnIndex
+                                ? widget.sizes[index] - animation.value
+                                : widget.sizes[index]
                             : widget.sizes[index],
                         child: e,
                       );
