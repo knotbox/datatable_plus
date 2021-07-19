@@ -25,17 +25,17 @@ class DataTablePlus<T> extends StatefulWidget {
   ///Widget at the very top of the table
   final Widget header;
 
-  ///Source
+  ///Source of this table, contains the underlying data used in rows
   final DataTablePlusSource<T> source;
 
   ///Color used in specific row
-  final Color Function(int, T?)? rowColor;
+  final Color Function(int, T)? rowColor;
 
   ///Color used in specific row when hovered
-  final Color Function(int, T?)? rowHoverColor;
+  final Color Function(int, T)? rowHoverColor;
 
   ///Textstyle used for this row
-  final TextStyle? Function(int, T?)? rowTextStyle;
+  final TextStyle? Function(int, T)? rowTextStyle;
 
   ///List of Table Column
   final List<TableColumn<T>> columns;
@@ -52,16 +52,10 @@ class DataTablePlus<T> extends StatefulWidget {
   final List<Widget> footerWidgets;
 
   ///If not null, triggered when a row is pressed
-  final void Function(int, T?)? onRowPressed;
+  final void Function(int, T)? onRowPressed;
 
   ///Widget shown when the row is expanded
-  final Widget Function(int, T?)? expandedRow;
-
-  ///Add empty rows to match rowsPerPage if not enough items loaded
-  final bool addEmptyRows;
-
-  ///Key used to find the expandable controller belonging to the object [T] at index
-  final Object Function(int, T?)? expandableKey;
+  final Widget Function(int, T)? expandedRow;
 
   ///The minimum table width before making rows horizontally scrollable
   final double scrollableTableWidth;
@@ -73,10 +67,10 @@ class DataTablePlus<T> extends StatefulWidget {
   final DataTablePlusThemeData? theme;
 
   ///Called when a row is checked/unchecked
-  final void Function(int, T?, bool)? onSelectionChanged;
+  final void Function(int, T, bool)? onSelectionChanged;
 
   ///Color used for the background and checkbox slidable indicator for a row
-  final Color Function(int, T?)? checkboxBackgroundColor;
+  final Color Function(int, T)? checkboxBackgroundColor;
 
   ///Table controller which is used to expand/retract expandables and slidables.
   final DataTablePlusController controller;
@@ -99,10 +93,8 @@ class DataTablePlus<T> extends StatefulWidget {
     this.availableRowsPerPage = const [10, 20, 50, 100],
     this.showRowPerPageSelection = true,
     this.onPageChanged,
-    this.addEmptyRows = false,
     this.footerWidgets = const [],
     this.expandedRow,
-    this.expandableKey,
     this.theme,
     this.checkboxBackgroundColor,
     this.onSelectionChanged,
@@ -137,7 +129,6 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
   @override
   void dispose() {
     widget.source.removeListener(_update);
-
     super.dispose();
   }
 

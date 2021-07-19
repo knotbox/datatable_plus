@@ -73,7 +73,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final source = Source();
-  final controller = DataTablePlusController<Model>();
+  final controller = DataTablePlusController<Model>(
+    (item) => item.subtitle,
+  );
 
   @override
   void dispose() {
@@ -117,7 +119,6 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   rowColor: (_, __) => Colors.blue,
-                  expandableKey: (index, item) => ValueKey(index),
                   expandedRow: (index, item) => Container(height: 200),
                   rowHoverColor: (_, __) => Colors.blue.shade800,
                   header: const SizedBox.shrink(),

@@ -18,12 +18,13 @@ class TableBody<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final table = DataTablePlus.of<T>(context)!;
+    final controller = table.controller as DataTablePlusController<T>;
 
-    final length = table.addEmptyRows ? table.source.rowsPerPage : data.length;
+    final length = table.source.rowsPerPage;
     final rows = <Widget>[];
 
     for (var index = 0; index < length; index++) {
-      final item = index >= data.length ? null : data[index];
+      final item = data[index];
       final realIndex = index + (table.source.page * length);
       final textStyle = table.rowTextStyle?.call(realIndex, item) ??
           DefaultTextStyle.of(context).style;
@@ -52,6 +53,9 @@ class TableBody<T> extends StatelessWidget {
 
       rows.add(
         TableRow<T>(
+          key: ValueKey(
+            controller.primaryKey(item!),
+          ),
           cells: cells,
           index: realIndex,
           item: item,

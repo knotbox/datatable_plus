@@ -4,7 +4,6 @@ import 'package:datatable_plus/src/widgets/row.dart';
 import 'package:flutter/material.dart' hide TableRow;
 import 'package:flutter_test/flutter_test.dart';
 
-
 import 'package:datatable_plus/datatable_plus.dart';
 
 import 'datatable_plus_test_utils.dart';
@@ -15,13 +14,16 @@ void main() {
     (tester) async {
       final List<String> log = <String>[];
       final source = TestSource();
+      final controller = DataTablePlusController((item) => item!);
 
       addTearDown(source.dispose);
+      addTearDown(controller.dispose);
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: DataTablePlus<Map<String, dynamic>>(
+              controller: controller,
               source: source,
               onRowPressed: (_, __) => log.add('row-pressed'),
               empty: () => const SizedBox(),

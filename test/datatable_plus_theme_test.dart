@@ -57,13 +57,16 @@ void main() {
       );
 
       final source = TestSource();
+      final controller = DataTablePlusController((item) => item!);
 
       addTearDown(source.dispose);
+      addTearDown(controller.dispose);
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: DataTablePlus<Map<String, dynamic>>(
+              controller: controller,
               source: source,
               theme: theme,
               onRowPressed: (_, __) => null,

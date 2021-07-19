@@ -11,7 +11,7 @@ import '../data_table_plus_theme.dart';
 
 class TableRow<T> extends StatefulWidget {
   final int index;
-  final T? item;
+  final T item;
   final List<Widget> cells;
   final List<double> sizes;
 
@@ -30,8 +30,7 @@ class TableRow<T> extends StatefulWidget {
 class _TableRowState<T> extends State<TableRow<T>>
     with SingleTickerProviderStateMixin {
   late Color color;
-  var isSelected = false;
-  var isHovered = false;
+  late bool isSelected;
   late DataTablePlus<T> table;
   late AnimationController controller;
   late Animation<double> animation;
@@ -39,16 +38,25 @@ class _TableRowState<T> extends State<TableRow<T>>
   StreamSubscription? sub;
   late ExpandableController expandableController;
 
+  DataTablePlusController<T> get tableController =>
+      table.controller as DataTablePlusController<T>;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     table = DataTablePlus.of<T>(context)!;
+
     final theme = DataTablePlusThemeData.of(context);
     color =
         table.rowColor?.call(widget.index, widget.item) ?? Colors.transparent;
 
     if (_init) {
-      expandableController = ExpandableController();
+      expandableController = ExpandableController(
+        initialExpanded: tableController.isFullyExpanded.value,
+      );
+      isSelected = tableController.selected.containsKey(
+        tableController.primaryKey(widget.item!),
+      );
 
       sub = table.controller.events
           .where((event) => event.index == widget.index || event.index == null)
@@ -82,6 +90,7 @@ class _TableRowState<T> extends State<TableRow<T>>
 
       controller = AnimationController(
         vsync: this,
+        value: table.controller.selected.isNotEmpty ? 1 : 0,
         duration: theme.checkboxSlidableTheme!.duration!,
       );
       animation = Tween(
@@ -99,9 +108,12 @@ class _TableRowState<T> extends State<TableRow<T>>
   onToggleSelection(bool selected) {
     isSelected = selected;
     if (isSelected) {
-      table.controller.selected[widget.index] = widget.item;
+      tableController.selected[tableController.primaryKey(widget.item!)] =
+          widget.item!;
     } else {
-      table.controller.selected.remove(widget.index);
+      tableController.selected.remove(
+        tableController.primaryKey(widget.item!),
+      );
     }
     setState(() {});
     table.onSelectionChanged?.call(
@@ -132,12 +144,14 @@ class _TableRowState<T> extends State<TableRow<T>>
         color = table.rowHoverColor?.call(widget.index, widget.item) ??
             table.rowColor?.call(widget.index, widget.item) ??
             Colors.transparent;
+
+        setState(() {});
       },
       onExit: (d) {
         color = table.rowColor?.call(widget.index, widget.item) ??
             Colors.transparent;
 
-        if (!isSelected) {
+        if (!isSelected && table.controller.selected.isEmpty) {
           controller.reverse();
         }
 
@@ -149,11 +163,11 @@ class _TableRowState<T> extends State<TableRow<T>>
           controller.forward();
         }
       },
-      child: Row(
-        children: [
-          AnimatedBuilder(
-            animation: animation,
-            builder: (context, _) => Container(
+      child: AnimatedBuilder(
+        animation: animation,
+        builder: (context, _) => Row(
+          children: [
+            Container(
               color: table.checkboxBackgroundColor?.call(
                 widget.index,
                 widget.item,
@@ -162,7 +176,7 @@ class _TableRowState<T> extends State<TableRow<T>>
               height: theme.rowHeight,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 100),
-                child: animation.isCompleted
+                child: animation.value > 25
                     ? Checkbox(
                         activeColor: slidableTheme!.activeColor,
                         checkColor: slidableTheme.checkColor,
@@ -174,29 +188,28 @@ class _TableRowState<T> extends State<TableRow<T>>
                     : const SizedBox.shrink(),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              height: theme.rowHeight,
-              color: color,
-              child: Row(
-                children: widget.cells
-                    .mapIndexed(
-                      (index, e) => AnimatedBuilder(
-                        animation: animation,
-                        builder: (context, _) => SizedBox(
-                          width: index != 0
-                              ? widget.sizes[index]
-                              : widget.sizes[index] - animation.value,
+            Expanded(
+              child: Container(
+                height: theme.rowHeight,
+                color: color,
+                child: Row(
+                  children: widget.cells.mapIndexed(
+                    (index, e) {
+                      return SizedBox(
+                        width: widget.sizes[index] - (animation.value / 5),
+                        child: Transform.translate(
+                          offset:
+                              Offset(animation.value / 5 * (5 - index) * -1, 0),
                           child: e,
                         ),
-                      ),
-                    )
-                    .toList(),
+                      );
+                    },
+                  ).toList(),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
 
