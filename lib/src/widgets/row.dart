@@ -4,6 +4,7 @@ import 'package:datatable_plus/src/models/controller_action.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:collection/collection.dart';
+import '../utils/extensions.dart';
 
 import '../../datatable_plus.dart';
 import '../data_table_plus.dart';
@@ -132,7 +133,7 @@ class _TableRowState<T> extends State<TableRow<T>>
       );
       animation = Tween(
         begin: theme.checkboxSlidableTheme!.indicatorWidth,
-        end: 50.0,
+        end: 40.0,
       ).animate(
         CurvedAnimation(
           parent: controller,
@@ -156,6 +157,10 @@ class _TableRowState<T> extends State<TableRow<T>>
     final hasCheckbox = theme.showCheckboxSlidable ?? false;
     final slidableTheme = theme.checkboxSlidableTheme;
     bool canPressRow = widget.item == null ? false : table.onRowPressed != null;
+    final checkboxBackgroundColor = table.checkboxBackgroundColor?.call(
+      widget.index,
+      widget.item,
+    );
 
     Widget row = MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -188,22 +193,54 @@ class _TableRowState<T> extends State<TableRow<T>>
           children: [
             if (hasCheckbox)
               Container(
-                color: table.checkboxBackgroundColor?.call(
-                  widget.index,
-                  widget.item,
+                height: (theme.rowHeight ?? 50) - 3,
+                decoration: BoxDecoration(
+                  color: checkboxBackgroundColor,
+                  borderRadius: BorderRadius.circular(2),
                 ),
                 width: animation.value,
-                height: theme.rowHeight,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 100),
                   child: animation.value > 25
-                      ? Checkbox(
-                          activeColor: slidableTheme!.activeColor,
-                          checkColor: slidableTheme.checkColor,
-                          value: isSelected,
-                          onChanged: (value) {
-                            onToggleSelection(value ?? false);
-                          },
+                      ? Stack(
+                          children: [
+                            Positioned.fill(
+                              child: Center(
+                                child: Container(
+                                  width: 18,
+                                  height: 18,
+                                  decoration: BoxDecoration(
+                                    color: checkboxBackgroundColor?.darken(
+                                      0.15,
+                                    ),
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Theme(
+                              data: ThemeData(
+                                unselectedWidgetColor:
+                                    checkboxBackgroundColor?.darken(
+                                  0.15,
+                                ),
+                              ),
+                              child: Checkbox(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                                activeColor: slidableTheme!.activeColor,
+                                checkColor: table.checkColor?.call(
+                                  widget.index,
+                                  widget.item,
+                                ),
+                                value: isSelected,
+                                onChanged: (value) {
+                                  onToggleSelection(value ?? false);
+                                },
+                              ),
+                            ),
+                          ],
                         )
                       : const SizedBox.shrink(),
                 ),

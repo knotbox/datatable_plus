@@ -77,6 +77,9 @@ class DataTablePlus<T> extends StatefulWidget {
   ///Defaults to the first column if not specified
   final int shrinkableColumnIndex;
 
+  ///Color of the tick mark in the checkboxes
+  final Color? Function(int, T)? checkColor;
+
   const DataTablePlus({
     Key? key,
     required this.controller,
@@ -88,6 +91,7 @@ class DataTablePlus<T> extends StatefulWidget {
     required this.empty,
     required this.onRowPressed,
     this.shrinkableColumnIndex = 0,
+    this.checkColor,
     this.rowColor,
     this.rowTextStyle,
     this.rowHoverColor,

@@ -112,7 +112,6 @@ class _HomeState extends State<Home> {
                   theme: DataTablePlusThemeData(
                     showCheckboxSlidable: true,
                     checkboxSlidableTheme: CheckboxSlidableTheme(
-                      checkColor: Colors.red,
                       activeColor: Colors.green,
                       duration: Duration(milliseconds: 200),
                       curve: Curves.bounceInOut,

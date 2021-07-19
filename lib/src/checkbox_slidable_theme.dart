@@ -9,12 +9,11 @@ class CheckboxSlidableTheme {
 
   final double? indicatorWidth;
   final Color? activeColor;
-  final Color? checkColor;
+
   final Duration? duration;
   final Curve? curve;
   CheckboxSlidableTheme({
     this.activeColor,
-    this.checkColor,
     this.duration,
     this.curve,
     this.indicatorWidth,
@@ -29,7 +28,6 @@ class CheckboxSlidableTheme {
   }) {
     return CheckboxSlidableTheme(
       activeColor: activeColor ?? this.activeColor,
-      checkColor: checkColor ?? this.checkColor,
       duration: duration ?? this.duration,
       curve: curve ?? this.curve,
       indicatorWidth: indicatorWidth ?? this.indicatorWidth,
@@ -39,7 +37,6 @@ class CheckboxSlidableTheme {
   CheckboxSlidableTheme merge(CheckboxSlidableTheme other) {
     return CheckboxSlidableTheme(
       activeColor: activeColor ?? other.activeColor,
-      checkColor: checkColor ?? other.checkColor,
       duration: duration ?? other.duration,
       curve: curve ?? other.curve,
       indicatorWidth: indicatorWidth ?? other.indicatorWidth,
@@ -48,7 +45,7 @@ class CheckboxSlidableTheme {
 
   @override
   String toString() {
-    return 'CheckboxSlidableTheme(activeColor: $activeColor, checkColor: $checkColor, duration: $duration, curve: $curve)';
+    return 'CheckboxSlidableTheme(activeColor: $activeColor,  duration: $duration, curve: $curve)';
   }
 
   @override
@@ -57,16 +54,12 @@ class CheckboxSlidableTheme {
 
     return other is CheckboxSlidableTheme &&
         other.activeColor == activeColor &&
-        other.checkColor == checkColor &&
         other.duration == duration &&
         other.curve == curve;
   }
 
   @override
   int get hashCode {
-    return activeColor.hashCode ^
-        checkColor.hashCode ^
-        duration.hashCode ^
-        curve.hashCode;
+    return activeColor.hashCode ^ duration.hashCode ^ curve.hashCode;
   }
 }
