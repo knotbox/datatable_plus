@@ -13,10 +13,11 @@ class DataTablePlusController<T> {
   });
 
   ///Called when a row is checked/unchecked
-  final void Function(int)? onSelectionChanged;
+  final void Function(int, bool, DataTablePlusController<T>)?
+      onSelectionChanged;
 
   ///Called when a row is expanded/retracted
-  final void Function(int)? onExpandedChanged;
+  final void Function(int, DataTablePlusController<T>)? onExpandedChanged;
 
   ///A stream of actions dispatched. Each action contains a type and the index of the row.
   ///The type is one of:
@@ -35,6 +36,9 @@ class DataTablePlusController<T> {
   ///Whether all rows are fully expanded
   final isFullyExpanded = ValueNotifier(false);
 
+  ///Whether at least one checkbox is selected
+  final hasSelectedCheckbox = ValueNotifier(false);
+
   ///Toggle the expanded state for a specific row
   void toggleExpandable(int index) {
     _streamController.add(
@@ -42,6 +46,7 @@ class DataTablePlusController<T> {
     );
     onExpandedChanged?.call(
       index,
+      this,
     );
   }
 
@@ -57,6 +62,7 @@ class DataTablePlusController<T> {
     if (index != null) {
       onExpandedChanged?.call(
         index,
+        this,
       );
     }
   }
@@ -73,6 +79,7 @@ class DataTablePlusController<T> {
     if (index != null) {
       onExpandedChanged?.call(
         index,
+        this,
       );
     }
   }
@@ -82,6 +89,8 @@ class DataTablePlusController<T> {
     _streamController.add(
       Action(ActionType.openSlidable, index),
     );
+
+    hasSelectedCheckbox.value = true;
   }
 
   ///Closes a particular slidable. [index] can be null to close all mounted slidables.
@@ -89,6 +98,10 @@ class DataTablePlusController<T> {
     _streamController.add(
       Action(ActionType.closeSlidable, index),
     );
+
+    if (index == null) {
+      hasSelectedCheckbox.value = false;
+    }
   }
 
   ///Marks this row as selected.
@@ -99,6 +112,8 @@ class DataTablePlusController<T> {
 
     onSelectionChanged?.call(
       index,
+      true,
+      this,
     );
   }
 
@@ -110,12 +125,15 @@ class DataTablePlusController<T> {
 
     onSelectionChanged?.call(
       index,
+      false,
+      this,
     );
   }
 
   @mustCallSuper
   void dispose() {
     isFullyExpanded.dispose();
+    hasSelectedCheckbox.dispose();
     _streamController.close();
   }
 }

@@ -23,6 +23,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: DataTablePlus<Map<String, dynamic>>(
+              keyOf: (item) => item['test'],
               shrinkableColumnIndex: 1,
               controller: controller,
               source: source,
@@ -74,8 +75,7 @@ void main() {
       log.clear();
 
       final firstHeader = find.descendant(
-        of: find.byWidgetPredicate(
-            (widget) => widget is TableHeader<Map<String, dynamic>>),
+        of: find.byWidgetPredicate((widget) => widget is TableHeader),
         matching: find.byType(InkWell).first,
       );
 

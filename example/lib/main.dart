@@ -74,24 +74,26 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final source = Source();
   late DataTablePlusController<Model> controller;
-  final expanded = <Model>[];
-  final selected = <Model>[];
+  final expanded = <Object>[];
+  final selected = <Object>[];
+
+  Object keyOf(Model item) => item.title;
 
   @override
   void initState() {
     controller = DataTablePlusController<Model>(
-      onSelectionChanged: (index) {
-        if (!selected.contains(source.items[index])) {
-          selected.add(source.items[index]);
+      onSelectionChanged: (index, isSelected, controller) {
+        if (!selected.contains(keyOf(source.items[index]))) {
+          selected.add(keyOf(source.items[index]));
         } else {
-          selected.remove(source.items[index]);
+          selected.remove(keyOf(source.items[index]));
         }
       },
-      onExpandedChanged: (index) {
-        if (!expanded.contains(source.items[index])) {
-          expanded.add(source.items[index]);
+      onExpandedChanged: (index, controller) {
+        if (!expanded.contains(keyOf(source.items[index]))) {
+          expanded.add(keyOf(source.items[index]));
         } else {
-          expanded.remove(source.items[index]);
+          expanded.remove(keyOf(source.items[index]));
         }
       },
     );
@@ -124,6 +126,7 @@ class _HomeState extends State<Home> {
             child: SizedBox.expand(
               child: SingleChildScrollView(
                 child: DataTablePlus<Model>(
+                  keyOf: (item) => item.subtitle,
                   selected: selected,
                   expanded: expanded,
                   shrinkableColumnIndex: 1,

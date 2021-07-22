@@ -37,9 +37,11 @@ class _TableRowState<T> extends State<TableRow<T>>
   late Animation<double> animation;
   var _init = true;
   StreamSubscription? sub;
+  late bool keepSlidableOpen;
   late ExpandableController expandableController;
 
-  DataTablePlusController get tableController => table.controller;
+  DataTablePlusController<T> get tableController =>
+      table.controller as DataTablePlusController<T>;
 
   void handleEvent(Action event) {
     switch (event.type) {
@@ -76,6 +78,11 @@ class _TableRowState<T> extends State<TableRow<T>>
     setState(() {});
   }
 
+  void onHasSelectedChange() {
+    keepSlidableOpen = tableController.hasSelectedCheckbox.value;
+    setState(() {});
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -85,9 +92,12 @@ class _TableRowState<T> extends State<TableRow<T>>
     color =
         table.rowColor?.call(widget.index, widget.item) ?? Colors.transparent;
 
-    isSelected = table.selected.contains(widget.item!);
+    isSelected = table.selected.contains(table.keyOf(widget.item!));
 
     if (_init) {
+      onHasSelectedChange();
+      tableController.hasSelectedCheckbox.addListener(onHasSelectedChange);
+
       expandableController = ExpandableController(
         initialExpanded: tableController.isFullyExpanded.value ||
             table.expanded.contains(widget.item),
@@ -119,6 +129,7 @@ class _TableRowState<T> extends State<TableRow<T>>
 
   @override
   void dispose() {
+    tableController.hasSelectedCheckbox.removeListener(onHasSelectedChange);
     expandableController.dispose();
     sub?.cancel();
     controller.dispose();
@@ -149,7 +160,7 @@ class _TableRowState<T> extends State<TableRow<T>>
         color = table.rowColor?.call(widget.index, widget.item) ??
             Colors.transparent;
 
-        if (!isSelected && table.selected.isEmpty) {
+        if (!isSelected && !keepSlidableOpen) {
           controller.reverse();
         }
 
@@ -211,8 +222,10 @@ class _TableRowState<T> extends State<TableRow<T>>
                                 value: isSelected,
                                 onChanged: (value) {
                                   onToggleSelection(value ?? false);
-                                  table.controller.onSelectionChanged?.call(
+                                  tableController.onSelectionChanged?.call(
                                     widget.index,
+                                    value ?? false,
+                                    tableController,
                                   );
                                 },
                               ),

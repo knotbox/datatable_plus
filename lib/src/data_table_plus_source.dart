@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -30,17 +29,6 @@ abstract class DataTablePlusSource<T> extends ChangeNotifier {
   ///Tracks whether this change notifier was disposed or not
   @protected
   bool mounted = true;
-
-  ///Returns a list of two integers with the index of the visible rows
-  List<int> getVisibleRange() {
-    return [
-      rowsPerPage * page,
-      min(
-        (rowsPerPage * page) + rowsPerPage,
-        value.maybeWhen(orElse: () => 0, data: (list) => list.length),
-      ),
-    ];
-  }
 
   @mustCallSuper
   void onRowsPerPageChanged(int? rowsPerPage, int page) {

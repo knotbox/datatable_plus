@@ -77,12 +77,15 @@ class DataTablePlus<T> extends StatefulWidget {
   ///Color of the tick mark in the checkboxes
   final Color? Function(int, T)? checkColor;
 
-  final List<T> selected;
+  final List<Object> selected;
 
-  final List<T> expanded;
+  final List<Object> expanded;
+
+  final Object Function(T) keyOf;
 
   const DataTablePlus({
     Key? key,
+    required this.keyOf,
     required this.controller,
     required this.loading,
     required this.error,
@@ -192,19 +195,30 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   widget.header,
-                  TableHeader<T>(
+                  TableHeader(
                     cellSizes: cellSizes,
+                    columns: widget.columns,
+                    source: widget.source,
                   ),
                   widget.source.value.when(
                     empty: widget.empty,
                     data: (data) => TableBody<T>(
                       data: data,
                       cellSizes: cellSizes,
+                      page: widget.source.page,
+                      columns: widget.columns,
+                      textStyle: widget.rowTextStyle,
                     ),
                     loading: widget.loading,
                     error: widget.error,
                   ),
-                  TableFooter<T>()
+                  TableFooter(
+                    showRowPerPageSelection: widget.showRowPerPageSelection,
+                    source: widget.source,
+                    availableRowsPerPage: widget.availableRowsPerPage,
+                    footerWidgets: widget.footerWidgets,
+                    onPageChanged: widget.onPageChanged,
+                  )
                 ],
               ),
             ),

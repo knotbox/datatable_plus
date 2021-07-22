@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 
 import '../../datatable_plus.dart';
-import '../data_table_plus.dart';
 import '../data_table_plus_theme.dart';
 
-class TableHeader<T> extends StatelessWidget {
-  const TableHeader({Key? key, required this.cellSizes}) : super(key: key);
+class TableHeader extends StatelessWidget {
+  final DataTablePlusSource source;
+  final List<TableColumn> columns;
+  const TableHeader(
+      {Key? key,
+      required this.cellSizes,
+      required this.source,
+      required this.columns})
+      : super(key: key);
 
   final List<double> cellSizes;
 
   @override
   Widget build(BuildContext context) {
-    final table = DataTablePlus.of<T>(context)!;
     final theme = DataTablePlusThemeData.of(context);
 
     final cells = List<Widget>.generate(
-      table.columns.length,
+      columns.length,
       (index) {
-        final column = table.columns[index];
+        final column = columns[index];
         Widget child = column.label;
 
         if (column.canSort) {
@@ -27,16 +32,16 @@ class TableHeader<T> extends StatelessWidget {
                 Flexible(
                   child: child,
                 ),
-                if (index == table.source.sortColumnIndex)
-                  Icon((table.source.sortAscending ?? false)
+                if (index == source.sortColumnIndex)
+                  Icon((source.sortAscending ?? false)
                       ? Icons.keyboard_arrow_up
                       : Icons.keyboard_arrow_down)
               ],
             ),
             onTap: () {
-              table.source.sort(
+              source.sort(
                 index,
-                !(table.source.sortAscending ?? false),
+                !(source.sortAscending ?? false),
               );
             },
           );

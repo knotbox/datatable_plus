@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' hide TableRow;
+
 import '../../datatable_plus.dart';
-import '../data_table_plus.dart';
 import 'row.dart';
 
 class TableBody<T> extends StatelessWidget {
@@ -8,36 +8,39 @@ class TableBody<T> extends StatelessWidget {
     Key? key,
     required this.data,
     required this.cellSizes,
+    required this.columns,
+    required this.page,
+    required this.textStyle,
   }) : super(key: key);
 
   final List<T> data;
   final List<double> cellSizes;
+  final List<TableColumn<T>> columns;
+  final int page;
+  final TextStyle? Function(int, T)? textStyle;
 
   @override
   Widget build(BuildContext context) {
-    final table = DataTablePlus.of<T>(context)!;
-
     final rows = <Widget>[];
 
     for (var index = 0; index < data.length; index++) {
       final item = data[index];
-      final realIndex = index + (table.source.page * data.length);
-      final textStyle = table.rowTextStyle?.call(realIndex, item) ??
-          DefaultTextStyle.of(context).style;
+      final realIndex = index + (page * data.length);
 
       final cells = List<Widget>.generate(
-        table.columns.length,
+        columns.length,
         (columnIndex) {
           Widget child;
 
-          final column = table.columns[columnIndex];
+          final column = columns[columnIndex];
           if (index >= data.length) {
             child = const SizedBox.shrink();
           } else {
             child = Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: DefaultTextStyle(
-                style: textStyle,
+                style: textStyle?.call(realIndex, item) ??
+                    DefaultTextStyle.of(context).style,
                 child: column.cellBuilder(realIndex, item),
               ),
             );
@@ -49,7 +52,7 @@ class TableBody<T> extends StatelessWidget {
 
       rows.add(
         TableRow<T>(
-          key: ValueKey(item),
+          key: ValueKey(realIndex),
           cells: cells,
           index: realIndex,
           item: item,

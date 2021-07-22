@@ -1,17 +1,28 @@
-import 'package:datatable_plus/src/data_table_plus.dart';
-import 'package:datatable_plus/src/data_table_plus_theme.dart';
 import 'package:flutter/material.dart';
 
-class TableFooter<T> extends StatelessWidget {
+import '../data_table_plus_source.dart';
+import '../data_table_plus_theme.dart';
+
+class TableFooter extends StatelessWidget {
+  final DataTablePlusSource source;
+  final bool showRowPerPageSelection;
+  final List<Widget> footerWidgets;
+  final List<int> availableRowsPerPage;
+  final void Function(int)? onPageChanged;
+
   const TableFooter({
     Key? key,
+    required this.source,
+    required this.showRowPerPageSelection,
+    required this.footerWidgets,
+    this.onPageChanged,
+    required this.availableRowsPerPage,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final table = DataTablePlus.of<T>(context)!;
     final theme = DataTablePlusThemeData.of(context);
-    var totalPage = (table.source.rowCount / table.source.rowsPerPage).ceil();
+    var totalPage = (source.rowCount / source.rowsPerPage).ceil();
     if (totalPage < 1) {
       totalPage = 1;
     }
@@ -36,9 +47,9 @@ class TableFooter<T> extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      ...table.footerWidgets,
+                      ...footerWidgets,
                       const VerticalDivider(indent: 10, endIndent: 10),
-                      if (table.showRowPerPageSelection)
+                      if (showRowPerPageSelection)
                         Row(
                           children: [
                             Padding(
@@ -53,8 +64,8 @@ class TableFooter<T> extends StatelessWidget {
                                   const SizedBox(width: 10),
                                   DropdownButton<int>(
                                     underline: const SizedBox.shrink(),
-                                    value: table.source.rowsPerPage,
-                                    items: table.availableRowsPerPage
+                                    value: source.rowsPerPage,
+                                    items: availableRowsPerPage
                                         .map(
                                           (e) => DropdownMenuItem(
                                             child: Text(
@@ -66,9 +77,9 @@ class TableFooter<T> extends StatelessWidget {
                                         )
                                         .toList(),
                                     onChanged: (rowsPerPage) {
-                                      table.source.onRowsPerPageChanged(
+                                      source.onRowsPerPageChanged(
                                         rowsPerPage,
-                                        table.source.page,
+                                        source.page,
                                       );
                                     },
                                   ),
@@ -79,11 +90,11 @@ class TableFooter<T> extends StatelessWidget {
                           ],
                         ),
                       IconButton(
-                        onPressed: table.source.page == 0
+                        onPressed: source.page == 0
                             ? null
                             : () {
-                                table.source.loadPreviousPage();
-                                table.onPageChanged?.call(table.source.page);
+                                source.loadPreviousPage();
+                                onPageChanged?.call(source.page);
                               },
                         icon: const Icon(
                           Icons.arrow_back_ios,
@@ -91,15 +102,15 @@ class TableFooter<T> extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '${table.source.page + 1} / $totalPage',
+                        '${source.page + 1} / $totalPage',
                         style: theme.footerTextStyle,
                       ),
                       IconButton(
-                        onPressed: table.source.isLastPage
+                        onPressed: source.isLastPage
                             ? null
                             : () {
-                                table.source.loadNextPage();
-                                table.onPageChanged?.call(table.source.page);
+                                source.loadNextPage();
+                                onPageChanged?.call(source.page);
                               },
                         icon: const Icon(
                           Icons.arrow_forward_ios,

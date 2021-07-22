@@ -66,6 +66,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: DataTablePlus<Map<String, dynamic>>(
+              keyOf: (item) => item['test'],
               shrinkableColumnIndex: 1,
               controller: controller,
               source: source,
@@ -99,11 +100,10 @@ void main() {
       );
 
       final header = find.byWidgetPredicate(
-        (widget) => widget is TableHeader<Map<String, dynamic>>,
+        (widget) => widget is TableHeader,
       );
 
-      final footer = find.byWidgetPredicate(
-          (widget) => widget is TableFooter<Map<String, dynamic>>);
+      final footer = find.byWidgetPredicate((widget) => widget is TableFooter);
 
       expect(header, findsOneWidget);
 
