@@ -63,9 +63,6 @@ class DataTablePlus<T> extends StatefulWidget {
   ///Theme of this table
   final DataTablePlusThemeData? theme;
 
-  ///Called when a row is checked/unchecked
-  final void Function(int, T, bool)? onSelectionChanged;
-
   ///Color used for the background and checkbox slidable indicator for a row
   final Color Function(int, T)? checkboxBackgroundColor;
 
@@ -80,6 +77,10 @@ class DataTablePlus<T> extends StatefulWidget {
   ///Color of the tick mark in the checkboxes
   final Color? Function(int, T)? checkColor;
 
+  final List<T> selected;
+
+  final List<T> expanded;
+
   const DataTablePlus({
     Key? key,
     required this.controller,
@@ -93,6 +94,8 @@ class DataTablePlus<T> extends StatefulWidget {
     this.shrinkableColumnIndex = 0,
     this.checkColor,
     this.rowColor,
+    this.selected = const [],
+    this.expanded = const [],
     this.rowTextStyle,
     this.rowHoverColor,
     this.minWidth = 600,
@@ -103,7 +106,6 @@ class DataTablePlus<T> extends StatefulWidget {
     this.expandedRow,
     this.theme,
     this.checkboxBackgroundColor,
-    this.onSelectionChanged,
   }) : super(key: key);
 
   static DataTablePlus<T>? of<T>(BuildContext context) =>

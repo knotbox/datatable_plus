@@ -73,9 +73,31 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final source = Source();
-  final controller = DataTablePlusController<Model>(
-    (item) => item.subtitle,
-  );
+  late DataTablePlusController<Model> controller;
+  final expanded = <Model>[];
+  final selected = <Model>[];
+
+  @override
+  void initState() {
+    controller = DataTablePlusController<Model>(
+      onSelectionChanged: (index) {
+        if (!selected.contains(source.items[index])) {
+          selected.add(source.items[index]);
+        } else {
+          selected.remove(source.items[index]);
+        }
+      },
+      onExpandedChanged: (index) {
+        if (!expanded.contains(source.items[index])) {
+          expanded.add(source.items[index]);
+        } else {
+          expanded.remove(source.items[index]);
+        }
+      },
+    );
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -94,11 +116,7 @@ class _HomeState extends State<Home> {
         children: [
           TextButton(
             onPressed: () {
-              if (controller.isFullyExpanded.value) {
-                controller.closeExpandable();
-              } else {
-                controller.openExpandable();
-              }
+              controller.openSlidable();
             },
             child: Text('Toggle select all'),
           ),
@@ -106,6 +124,8 @@ class _HomeState extends State<Home> {
             child: SizedBox.expand(
               child: SingleChildScrollView(
                 child: DataTablePlus<Model>(
+                  selected: selected,
+                  expanded: expanded,
                   shrinkableColumnIndex: 1,
                   controller: controller,
                   checkboxBackgroundColor: (_, __) => Colors.red,
@@ -132,18 +152,6 @@ class _HomeState extends State<Home> {
                   ),
                   empty: () => const SizedBox.shrink(),
                   source: source,
-                  onSelectionChanged: (index, item, isSelected) {
-                    final range = source.getVisibleRange();
-                    if (controller.selected.isNotEmpty) {
-                      for (int i = range.first; i < range[1]; i++) {
-                        controller.openSlidable(i);
-                      }
-                    } else {
-                      for (int i = range.first; i < range[1]; i++) {
-                        controller.closeSlidable(i);
-                      }
-                    }
-                  },
                   columns: [
                     TableColumn(
                       label: const SizedBox.shrink(),
@@ -179,23 +187,25 @@ class _HomeState extends State<Home> {
                         child: Text('Column 1'),
                       ),
                       cellBuilder: (index, item) {
-                        return ValueListenableBuilder<List<Object>>(
-                          valueListenable: controller.expanded,
-                          builder: (_, expanded, __) {
-                            final isExpanded =
-                                !controller.retracted.contains(item.subtitle) &&
-                                    (expanded.contains(item.subtitle) ||
-                                        controller.isFullyExpanded.value);
-                            return Center(
-                              child: Text(
-                                item.title,
-                                style: TextStyle(
-                                  color: isExpanded ? Colors.red : null,
-                                ),
-                              ),
-                            );
-                          },
+                        // return ValueListenableBuilder<List<Object>>(
+                        //   valueListenable: expanded,
+                        //   builder: (_, expanded, __) {
+                        //     final isExpanded =
+                        //         !controller.retracted.contains(item.subtitle) &&
+                        //             (expanded.contains(item.subtitle) ||
+                        //                 controller.isFullyExpanded.value);
+
+                        final isExpanded = expanded.contains(item);
+                        return Center(
+                          child: Text(
+                            item.title,
+                            style: TextStyle(
+                              color: isExpanded ? Colors.red : null,
+                            ),
+                          ),
                         );
+                        //   },
+                        // );
                       },
                       canSort: true,
                     ),

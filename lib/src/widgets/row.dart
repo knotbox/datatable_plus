@@ -39,18 +39,15 @@ class _TableRowState<T> extends State<TableRow<T>>
   StreamSubscription? sub;
   late ExpandableController expandableController;
 
-  DataTablePlusController<T> get tableController =>
-      table.controller as DataTablePlusController<T>;
+  DataTablePlusController get tableController => table.controller;
 
   void handleEvent(Action event) {
     switch (event.type) {
       case ActionType.openExpandable:
-        onToggleExpanded(false);
-        expandableController.value = true;
+        onToggleExpanded(true);
         break;
       case ActionType.closeExpandable:
-        onToggleExpanded(true);
-        expandableController.value = false;
+        onToggleExpanded(false);
         break;
       case ActionType.openSlidable:
         controller.forward();
@@ -59,8 +56,7 @@ class _TableRowState<T> extends State<TableRow<T>>
         controller.reverse();
         break;
       case ActionType.toggleExpandable:
-        onToggleExpanded(expandableController.value);
-        expandableController.value = !expandableController.value;
+        onToggleExpanded(!expandableController.value);
         break;
       case ActionType.select:
         onToggleSelection(true);
@@ -72,34 +68,12 @@ class _TableRowState<T> extends State<TableRow<T>>
   }
 
   void onToggleExpanded(bool expanded) {
-    final key = tableController.primaryKey(widget.item);
-    if (expanded) {
-      tableController.retracted.add(key);
-      tableController.expanded.value = [
-        ...tableController.expanded.value,
-      ]..remove(key);
-    } else {
-      tableController.retracted.remove(key);
-      tableController.expanded.value = [...tableController.expanded.value, key];
-    }
+    expandableController.value = expanded;
   }
 
   void onToggleSelection(bool selected) {
     isSelected = selected;
-    if (isSelected) {
-      tableController.selected[tableController.primaryKey(widget.item!)] =
-          widget.item!;
-    } else {
-      tableController.selected.remove(
-        tableController.primaryKey(widget.item!),
-      );
-    }
     setState(() {});
-    table.onSelectionChanged?.call(
-      widget.index,
-      widget.item,
-      isSelected,
-    );
   }
 
   @override
@@ -111,15 +85,12 @@ class _TableRowState<T> extends State<TableRow<T>>
     color =
         table.rowColor?.call(widget.index, widget.item) ?? Colors.transparent;
 
+    isSelected = table.selected.contains(widget.item!);
+
     if (_init) {
       expandableController = ExpandableController(
         initialExpanded: tableController.isFullyExpanded.value ||
-            tableController.expanded.value.contains(
-              tableController.primaryKey(widget.item),
-            ),
-      );
-      isSelected = tableController.selected.containsKey(
-        tableController.primaryKey(widget.item!),
+            table.expanded.contains(widget.item),
       );
 
       sub = table.controller.events
@@ -128,9 +99,10 @@ class _TableRowState<T> extends State<TableRow<T>>
 
       controller = AnimationController(
         vsync: this,
-        value: table.controller.selected.isNotEmpty ? 1 : 0,
+        value: table.selected.isNotEmpty ? 1 : 0,
         duration: theme.checkboxSlidableTheme!.duration!,
       );
+
       animation = Tween(
         begin: theme.checkboxSlidableTheme!.indicatorWidth,
         end: 40.0,
@@ -140,6 +112,8 @@ class _TableRowState<T> extends State<TableRow<T>>
           curve: theme.checkboxSlidableTheme!.curve!,
         ),
       );
+
+      _init = false;
     }
   }
 
@@ -175,7 +149,7 @@ class _TableRowState<T> extends State<TableRow<T>>
         color = table.rowColor?.call(widget.index, widget.item) ??
             Colors.transparent;
 
-        if (!isSelected && table.controller.selected.isEmpty) {
+        if (!isSelected && table.selected.isEmpty) {
           controller.reverse();
         }
 
@@ -237,6 +211,9 @@ class _TableRowState<T> extends State<TableRow<T>>
                                 value: isSelected,
                                 onChanged: (value) {
                                   onToggleSelection(value ?? false);
+                                  table.controller.onSelectionChanged?.call(
+                                    widget.index,
+                                  );
                                 },
                               ),
                             ),

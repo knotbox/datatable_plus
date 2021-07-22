@@ -7,19 +7,16 @@ import 'models/controller_action.dart';
 class DataTablePlusController<T> {
   final _streamController = StreamController<Action>.broadcast();
 
-  ///Map of selected items in the table.
-  ///Selected items are identified by an object given by [primaryKey] & data [T]
-  final Map<Object, T> selected = {};
+  DataTablePlusController({
+    this.onSelectionChanged,
+    this.onExpandedChanged,
+  });
 
-  ///List of expanded items in the table.
-  final expanded = ValueNotifier<List<Object>>([]);
+  ///Called when a row is checked/unchecked
+  final void Function(int)? onSelectionChanged;
 
-  final retracted = <Object>[];
-
-  ///Primary key used to store information about an item
-  final Object Function(T) primaryKey;
-
-  DataTablePlusController(this.primaryKey);
+  ///Called when a row is expanded/retracted
+  final void Function(int)? onExpandedChanged;
 
   ///A stream of actions dispatched. Each action contains a type and the index of the row.
   ///The type is one of:
@@ -43,62 +40,81 @@ class DataTablePlusController<T> {
     _streamController.add(
       Action(ActionType.toggleExpandable, index),
     );
+    onExpandedChanged?.call(
+      index,
+    );
   }
 
   ///Opens a particular expandable. [index] can be null to open all the expandables.
   void openExpandable([int? index]) {
     if (index == null) {
       isFullyExpanded.value = true;
-      retracted.clear();
     }
     _streamController.add(
       Action(ActionType.openExpandable, index),
     );
+
+    if (index != null) {
+      onExpandedChanged?.call(
+        index,
+      );
+    }
   }
 
   ///Closes a particular expandable. [index] can be null to close all the expandables.
   void closeExpandable([int? index]) {
     if (index == null) {
       isFullyExpanded.value = false;
-      retracted.clear();
-      expanded.value = [];
     }
     _streamController.add(
       Action(ActionType.closeExpandable, index),
     );
+
+    if (index != null) {
+      onExpandedChanged?.call(
+        index,
+      );
+    }
   }
 
-  ///Opens a particular slidable.
-  void openSlidable(int index) {
+  ///Opens a particular slidable. [index] can be null to open all mounted slidables.
+  void openSlidable([int? index]) {
     _streamController.add(
       Action(ActionType.openSlidable, index),
     );
   }
 
-  ///Closes a particular slidable.
-  void closeSlidable(int index) {
+  ///Closes a particular slidable. [index] can be null to close all mounted slidables.
+  void closeSlidable([int? index]) {
     _streamController.add(
       Action(ActionType.closeSlidable, index),
     );
   }
 
-  ///Marks this row as selected, firing the onSelectionChanged callback of [DataTablePlus] and adds it to the [selected] map.
+  ///Marks this row as selected.
   void select(int index) {
     _streamController.add(
       Action(ActionType.select, index),
     );
+
+    onSelectionChanged?.call(
+      index,
+    );
   }
 
-  ///Marks this row as unselected, firing the onSelectionChanged callback of [DataTablePlus] and removes it from the [selected] map
+  ///Marks this row as unselected.
   void unselect(int index) {
     _streamController.add(
       Action(ActionType.unselect, index),
+    );
+
+    onSelectionChanged?.call(
+      index,
     );
   }
 
   @mustCallSuper
   void dispose() {
-    expanded.dispose();
     isFullyExpanded.dispose();
     _streamController.close();
   }

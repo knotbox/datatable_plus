@@ -16,7 +16,6 @@ class TableBody<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final table = DataTablePlus.of<T>(context)!;
-    final controller = table.controller as DataTablePlusController<T>;
 
     final rows = <Widget>[];
 
@@ -50,9 +49,7 @@ class TableBody<T> extends StatelessWidget {
 
       rows.add(
         TableRow<T>(
-          key: ValueKey(
-            controller.primaryKey(item!),
-          ),
+          key: ValueKey(item),
           cells: cells,
           index: realIndex,
           item: item,

@@ -57,7 +57,7 @@ void main() {
       );
 
       final source = TestSource();
-      final controller = DataTablePlusController((item) => item!);
+      final controller = DataTablePlusController();
 
       addTearDown(source.dispose);
       addTearDown(controller.dispose);

@@ -14,7 +14,7 @@ void main() {
     (tester) async {
       final List<String> log = <String>[];
       final source = TestSource();
-      final controller = DataTablePlusController((item) => item!);
+      final controller = DataTablePlusController();
 
       addTearDown(source.dispose);
       addTearDown(controller.dispose);
