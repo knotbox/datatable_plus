@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart' hide TableRow;
 
 import '../../datatable_plus.dart';
@@ -11,12 +13,14 @@ class TableBody<T> extends StatelessWidget {
     required this.columns,
     required this.page,
     required this.textStyle,
+    required this.rowsPerPage,
   }) : super(key: key);
 
   final List<T> data;
   final List<double> cellSizes;
   final List<TableColumn<T>> columns;
   final int page;
+  final int rowsPerPage;
   final TextStyle? Function(int, T)? textStyle;
 
   @override
@@ -25,7 +29,8 @@ class TableBody<T> extends StatelessWidget {
 
     for (var index = 0; index < data.length; index++) {
       final item = data[index];
-      final realIndex = index + (page * data.length);
+
+      final realIndex = (index + (page * rowsPerPage));
 
       final cells = List<Widget>.generate(
         columns.length,

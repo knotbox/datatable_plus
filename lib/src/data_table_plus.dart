@@ -204,6 +204,7 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
                     empty: widget.empty,
                     data: (data) => TableBody<T>(
                       data: data,
+                      rowsPerPage: widget.source.rowsPerPage,
                       cellSizes: cellSizes,
                       page: widget.source.page,
                       columns: widget.columns,
