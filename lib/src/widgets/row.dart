@@ -281,6 +281,14 @@ class _TableRowState<T> extends State<TableRow<T>>
       );
     }
 
-    return row;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        row,
+        Divider(
+          height: 0,
+        ),
+      ],
+    );
   }
 }
