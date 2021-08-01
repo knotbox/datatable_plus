@@ -167,7 +167,8 @@ class _TableRowState<T> extends State<TableRow<T>>
         setState(() {});
       },
       onHover: (d) {
-        if (d.localPosition.dx < slidableTheme!.indicatorWidth!) {
+        if (d.localPosition.dx <
+            slidableTheme!.indicatorWidth! + (slidableTheme.indicatorWidth! * 3)) {
           if (controller.isAnimating) return;
           controller.forward();
         }
@@ -181,7 +182,7 @@ class _TableRowState<T> extends State<TableRow<T>>
                 height: (theme.rowHeight ?? 50) - 3,
                 decoration: BoxDecoration(
                   color: checkboxBackgroundColor,
-                  borderRadius: BorderRadius.circular(2),
+                  borderRadius: BorderRadius.circular(1),
                 ),
                 width: animation.value,
                 child: AnimatedSwitcher(
@@ -198,7 +199,7 @@ class _TableRowState<T> extends State<TableRow<T>>
                                     color: checkboxBackgroundColor?.darken(
                                       0.15,
                                     ),
-                                    borderRadius: BorderRadius.circular(2),
+                                    borderRadius: BorderRadius.circular(1),
                                   ),
                                 ),
                               ),
