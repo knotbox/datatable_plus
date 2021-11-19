@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:datatable_plus/src/models/controller_action.dart';
+import 'package:collection/collection.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart' hide Action;
-import 'package:collection/collection.dart';
-import '../utils/extensions.dart';
 
-import '../../datatable_plus.dart';
 import '../data_table_plus.dart';
+import '../data_table_plus_controller.dart';
 import '../data_table_plus_theme.dart';
+import '../models/controller_action.dart';
+import '../utils/extensions.dart';
 
 class TableRow<T> extends StatefulWidget {
   final int index;
@@ -168,7 +168,8 @@ class _TableRowState<T> extends State<TableRow<T>>
       },
       onHover: (d) {
         if (d.localPosition.dx <
-            slidableTheme!.indicatorWidth! + (slidableTheme.indicatorWidth! * 3)) {
+            slidableTheme!.indicatorWidth! +
+                (slidableTheme.indicatorWidth! * 3)) {
           if (controller.isAnimating) return;
           controller.forward();
         }

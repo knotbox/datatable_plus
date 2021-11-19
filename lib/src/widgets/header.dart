@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../datatable_plus.dart';
-import '../data_table_plus_theme.dart';
 
 class TableHeader extends StatelessWidget {
   final DataTablePlusSource source;

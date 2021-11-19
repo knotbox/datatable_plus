@@ -1,13 +1,11 @@
 import 'package:collection/collection.dart';
-import 'package:datatable_plus/src/data_table_plus_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
-import 'package:datatable_plus/datatable_plus.dart';
-
+import 'data_table_plus_controller.dart';
 import 'data_table_plus_source.dart';
 import 'data_table_plus_theme.dart';
 import 'models/table_column.dart';
+import 'models/table_column_size.dart';
 import 'widgets/body.dart';
 import 'widgets/footer.dart';
 import 'widgets/header.dart';
@@ -83,6 +81,8 @@ class DataTablePlus<T> extends StatefulWidget {
 
   final Object Function(T) keyOf;
 
+  final double minCellWidth;
+
   const DataTablePlus({
     Key? key,
     required this.keyOf,
@@ -94,6 +94,7 @@ class DataTablePlus<T> extends StatefulWidget {
     required this.source,
     required this.empty,
     required this.onRowPressed,
+    this.minCellWidth = 40,
     this.shrinkableColumnIndex = 0,
     this.checkColor,
     this.rowColor,
@@ -119,6 +120,7 @@ class DataTablePlus<T> extends StatefulWidget {
 }
 
 class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
+  final scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -140,6 +142,7 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
   @override
   void dispose() {
     widget.source.removeListener(_update);
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -161,7 +164,7 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final width = constraints.minWidth > widget.minWidth
+          var width = constraints.minWidth > widget.minWidth
               ? constraints.minWidth
               : widget.minWidth;
 
@@ -180,7 +183,16 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
           widget.columns.map((e) => e.size).forEachIndexed(
             (index, columnSize) {
               cellSizes[index] = columnSize.when(
-                flex: (flex) => (width - fixedSum) / flexSum * flex,
+                flex: (flex) {
+                  var cellWidth = (width - fixedSum) / flexSum * flex;
+
+                  if (cellWidth < widget.minCellWidth) {
+                    cellWidth = widget.minCellWidth;
+                    width += widget.minCellWidth;
+                  }
+
+                  return cellWidth;
+                },
                 fixed: (size) => size,
               );
             },
@@ -191,6 +203,7 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
             child: SizedBox(
               width: width,
               child: ListView(
+                controller: scrollController,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
