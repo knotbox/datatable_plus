@@ -1,5 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'page_request.dart';
 
@@ -165,27 +167,23 @@ class _$_PageRequest implements _PageRequest {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _PageRequest &&
-            (identical(other.sortColumnIndex, sortColumnIndex) ||
-                const DeepCollectionEquality()
-                    .equals(other.sortColumnIndex, sortColumnIndex)) &&
-            (identical(other.offset, offset) ||
-                const DeepCollectionEquality().equals(other.offset, offset)) &&
-            (identical(other.sortAscending, sortAscending) ||
-                const DeepCollectionEquality()
-                    .equals(other.sortAscending, sortAscending)) &&
-            (identical(other.pageSize, pageSize) ||
-                const DeepCollectionEquality()
-                    .equals(other.pageSize, pageSize)));
+        (other.runtimeType == runtimeType &&
+            other is _PageRequest &&
+            const DeepCollectionEquality()
+                .equals(other.sortColumnIndex, sortColumnIndex) &&
+            const DeepCollectionEquality().equals(other.offset, offset) &&
+            const DeepCollectionEquality()
+                .equals(other.sortAscending, sortAscending) &&
+            const DeepCollectionEquality().equals(other.pageSize, pageSize));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(sortColumnIndex) ^
-      const DeepCollectionEquality().hash(offset) ^
-      const DeepCollectionEquality().hash(sortAscending) ^
-      const DeepCollectionEquality().hash(pageSize);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(sortColumnIndex),
+      const DeepCollectionEquality().hash(offset),
+      const DeepCollectionEquality().hash(sortAscending),
+      const DeepCollectionEquality().hash(pageSize));
 
   @JsonKey(ignore: true)
   @override
@@ -201,13 +199,13 @@ abstract class _PageRequest implements PageRequest {
       required int pageSize}) = _$_PageRequest;
 
   @override
-  int? get sortColumnIndex => throw _privateConstructorUsedError;
+  int? get sortColumnIndex;
   @override
-  int get offset => throw _privateConstructorUsedError;
+  int get offset;
   @override
-  bool? get sortAscending => throw _privateConstructorUsedError;
+  bool? get sortAscending;
   @override
-  int get pageSize => throw _privateConstructorUsedError;
+  int get pageSize;
   @override
   @JsonKey(ignore: true)
   _$PageRequestCopyWith<_PageRequest> get copyWith =>

@@ -1,5 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'table_value.dart';
 
@@ -51,6 +53,14 @@ mixin _$TableValue<T> {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<T> data)? data,
+    TResult Function()? loading,
+    TResult Function()? empty,
+    TResult Function(Object err)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<T> data)? data,
     TResult Function()? loading,
@@ -65,6 +75,14 @@ mixin _$TableValue<T> {
     required TResult Function(TableLoading<T> value) loading,
     required TResult Function(TableEmpty<T> value) empty,
     required TResult Function(TableError<T> value) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(TableData<T> value)? data,
+    TResult Function(TableLoading<T> value)? loading,
+    TResult Function(TableEmpty<T> value)? empty,
+    TResult Function(TableError<T> value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -142,14 +160,14 @@ class _$TableData<T> implements TableData<T> {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is TableData<T> &&
-            (identical(other.data, data) ||
-                const DeepCollectionEquality().equals(other.data, data)));
+        (other.runtimeType == runtimeType &&
+            other is TableData<T> &&
+            const DeepCollectionEquality().equals(other.data, data));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(data);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
 
   @JsonKey(ignore: true)
   @override
@@ -165,6 +183,17 @@ class _$TableData<T> implements TableData<T> {
     required TResult Function(Object err) error,
   }) {
     return data(this.data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<T> data)? data,
+    TResult Function()? loading,
+    TResult Function()? empty,
+    TResult Function(Object err)? error,
+  }) {
+    return data?.call(this.data);
   }
 
   @override
@@ -195,6 +224,17 @@ class _$TableData<T> implements TableData<T> {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(TableData<T> value)? data,
+    TResult Function(TableLoading<T> value)? loading,
+    TResult Function(TableEmpty<T> value)? empty,
+    TResult Function(TableError<T> value)? error,
+  }) {
+    return data?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TableData<T> value)? data,
     TResult Function(TableLoading<T> value)? loading,
@@ -212,7 +252,7 @@ class _$TableData<T> implements TableData<T> {
 abstract class TableData<T> implements TableValue<T> {
   const factory TableData(List<T> data) = _$TableData<T>;
 
-  List<T> get data => throw _privateConstructorUsedError;
+  List<T> get data;
   @JsonKey(ignore: true)
   $TableDataCopyWith<T, TableData<T>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -249,7 +289,8 @@ class _$TableLoading<T> implements TableLoading<T> {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is TableLoading<T>);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is TableLoading<T>);
   }
 
   @override
@@ -264,6 +305,17 @@ class _$TableLoading<T> implements TableLoading<T> {
     required TResult Function(Object err) error,
   }) {
     return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<T> data)? data,
+    TResult Function()? loading,
+    TResult Function()? empty,
+    TResult Function(Object err)? error,
+  }) {
+    return loading?.call();
   }
 
   @override
@@ -290,6 +342,17 @@ class _$TableLoading<T> implements TableLoading<T> {
     required TResult Function(TableError<T> value) error,
   }) {
     return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(TableData<T> value)? data,
+    TResult Function(TableLoading<T> value)? loading,
+    TResult Function(TableEmpty<T> value)? empty,
+    TResult Function(TableError<T> value)? error,
+  }) {
+    return loading?.call(this);
   }
 
   @override
@@ -343,7 +406,8 @@ class _$TableEmpty<T> implements TableEmpty<T> {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is TableEmpty<T>);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is TableEmpty<T>);
   }
 
   @override
@@ -358,6 +422,17 @@ class _$TableEmpty<T> implements TableEmpty<T> {
     required TResult Function(Object err) error,
   }) {
     return empty();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<T> data)? data,
+    TResult Function()? loading,
+    TResult Function()? empty,
+    TResult Function(Object err)? error,
+  }) {
+    return empty?.call();
   }
 
   @override
@@ -384,6 +459,17 @@ class _$TableEmpty<T> implements TableEmpty<T> {
     required TResult Function(TableError<T> value) error,
   }) {
     return empty(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(TableData<T> value)? data,
+    TResult Function(TableLoading<T> value)? loading,
+    TResult Function(TableEmpty<T> value)? empty,
+    TResult Function(TableError<T> value)? error,
+  }) {
+    return empty?.call(this);
   }
 
   @override
@@ -454,14 +540,14 @@ class _$TableError<T> implements TableError<T> {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is TableError<T> &&
-            (identical(other.err, err) ||
-                const DeepCollectionEquality().equals(other.err, err)));
+        (other.runtimeType == runtimeType &&
+            other is TableError<T> &&
+            const DeepCollectionEquality().equals(other.err, err));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(err);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(err));
 
   @JsonKey(ignore: true)
   @override
@@ -477,6 +563,17 @@ class _$TableError<T> implements TableError<T> {
     required TResult Function(Object err) error,
   }) {
     return error(err);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<T> data)? data,
+    TResult Function()? loading,
+    TResult Function()? empty,
+    TResult Function(Object err)? error,
+  }) {
+    return error?.call(err);
   }
 
   @override
@@ -507,6 +604,17 @@ class _$TableError<T> implements TableError<T> {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(TableData<T> value)? data,
+    TResult Function(TableLoading<T> value)? loading,
+    TResult Function(TableEmpty<T> value)? empty,
+    TResult Function(TableError<T> value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TableData<T> value)? data,
     TResult Function(TableLoading<T> value)? loading,
@@ -524,7 +632,7 @@ class _$TableError<T> implements TableError<T> {
 abstract class TableError<T> implements TableValue<T> {
   const factory TableError(Object err) = _$TableError<T>;
 
-  Object get err => throw _privateConstructorUsedError;
+  Object get err;
   @JsonKey(ignore: true)
   $TableErrorCopyWith<T, TableError<T>> get copyWith =>
       throw _privateConstructorUsedError;

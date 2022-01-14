@@ -1,5 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'table_column.dart';
 
@@ -168,14 +170,14 @@ class _$_TableColumn<T> implements _TableColumn<T> {
       required this.cellBuilder,
       this.canSort = false});
 
-  @JsonKey(defaultValue: const TableColumnSize.flex(1))
+  @JsonKey()
   @override
   final TableColumnSize size;
   @override
   final Widget label;
   @override
   final Widget Function(int, T) cellBuilder;
-  @JsonKey(defaultValue: false)
+  @JsonKey()
   @override
   final bool canSort;
 
@@ -187,25 +189,22 @@ class _$_TableColumn<T> implements _TableColumn<T> {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _TableColumn<T> &&
-            (identical(other.size, size) ||
-                const DeepCollectionEquality().equals(other.size, size)) &&
-            (identical(other.label, label) ||
-                const DeepCollectionEquality().equals(other.label, label)) &&
+        (other.runtimeType == runtimeType &&
+            other is _TableColumn<T> &&
+            const DeepCollectionEquality().equals(other.size, size) &&
+            const DeepCollectionEquality().equals(other.label, label) &&
             (identical(other.cellBuilder, cellBuilder) ||
-                const DeepCollectionEquality()
-                    .equals(other.cellBuilder, cellBuilder)) &&
-            (identical(other.canSort, canSort) ||
-                const DeepCollectionEquality().equals(other.canSort, canSort)));
+                other.cellBuilder == cellBuilder) &&
+            const DeepCollectionEquality().equals(other.canSort, canSort));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(size) ^
-      const DeepCollectionEquality().hash(label) ^
-      const DeepCollectionEquality().hash(cellBuilder) ^
-      const DeepCollectionEquality().hash(canSort);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(size),
+      const DeepCollectionEquality().hash(label),
+      cellBuilder,
+      const DeepCollectionEquality().hash(canSort));
 
   @JsonKey(ignore: true)
   @override
@@ -221,13 +220,13 @@ abstract class _TableColumn<T> implements TableColumn<T> {
       bool canSort}) = _$_TableColumn<T>;
 
   @override
-  TableColumnSize get size => throw _privateConstructorUsedError;
+  TableColumnSize get size;
   @override
-  Widget get label => throw _privateConstructorUsedError;
+  Widget get label;
   @override
-  Widget Function(int, T) get cellBuilder => throw _privateConstructorUsedError;
+  Widget Function(int, T) get cellBuilder;
   @override
-  bool get canSort => throw _privateConstructorUsedError;
+  bool get canSort;
   @override
   @JsonKey(ignore: true)
   _$TableColumnCopyWith<T, _TableColumn<T>> get copyWith =>

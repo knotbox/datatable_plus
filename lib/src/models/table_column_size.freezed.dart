@@ -1,5 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'table_column_size.dart';
 
@@ -41,6 +43,12 @@ mixin _$TableColumnSize {
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(int flex)? flex,
+    TResult Function(double size)? fixed,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int flex)? flex,
     TResult Function(double size)? fixed,
@@ -51,6 +59,12 @@ mixin _$TableColumnSize {
   TResult map<TResult extends Object?>({
     required TResult Function(FlexTableColumn value) flex,
     required TResult Function(FixedTableColumn value) fixed,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(FlexTableColumn value)? flex,
+    TResult Function(FixedTableColumn value)? fixed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -127,14 +141,14 @@ class _$FlexTableColumn implements FlexTableColumn {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is FlexTableColumn &&
-            (identical(other.flex, flex) ||
-                const DeepCollectionEquality().equals(other.flex, flex)));
+        (other.runtimeType == runtimeType &&
+            other is FlexTableColumn &&
+            const DeepCollectionEquality().equals(other.flex, flex));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(flex);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(flex));
 
   @JsonKey(ignore: true)
   @override
@@ -148,6 +162,15 @@ class _$FlexTableColumn implements FlexTableColumn {
     required TResult Function(double size) fixed,
   }) {
     return flex(this.flex);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(int flex)? flex,
+    TResult Function(double size)? fixed,
+  }) {
+    return flex?.call(this.flex);
   }
 
   @override
@@ -174,6 +197,15 @@ class _$FlexTableColumn implements FlexTableColumn {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(FlexTableColumn value)? flex,
+    TResult Function(FixedTableColumn value)? fixed,
+  }) {
+    return flex?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(FlexTableColumn value)? flex,
     TResult Function(FixedTableColumn value)? fixed,
@@ -189,7 +221,7 @@ class _$FlexTableColumn implements FlexTableColumn {
 abstract class FlexTableColumn implements TableColumnSize {
   const factory FlexTableColumn(int flex) = _$FlexTableColumn;
 
-  int get flex => throw _privateConstructorUsedError;
+  int get flex;
   @JsonKey(ignore: true)
   $FlexTableColumnCopyWith<FlexTableColumn> get copyWith =>
       throw _privateConstructorUsedError;
@@ -243,14 +275,14 @@ class _$FixedTableColumn implements FixedTableColumn {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is FixedTableColumn &&
-            (identical(other.size, size) ||
-                const DeepCollectionEquality().equals(other.size, size)));
+        (other.runtimeType == runtimeType &&
+            other is FixedTableColumn &&
+            const DeepCollectionEquality().equals(other.size, size));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(size);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(size));
 
   @JsonKey(ignore: true)
   @override
@@ -264,6 +296,15 @@ class _$FixedTableColumn implements FixedTableColumn {
     required TResult Function(double size) fixed,
   }) {
     return fixed(size);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(int flex)? flex,
+    TResult Function(double size)? fixed,
+  }) {
+    return fixed?.call(size);
   }
 
   @override
@@ -290,6 +331,15 @@ class _$FixedTableColumn implements FixedTableColumn {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(FlexTableColumn value)? flex,
+    TResult Function(FixedTableColumn value)? fixed,
+  }) {
+    return fixed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(FlexTableColumn value)? flex,
     TResult Function(FixedTableColumn value)? fixed,
@@ -305,7 +355,7 @@ class _$FixedTableColumn implements FixedTableColumn {
 abstract class FixedTableColumn implements TableColumnSize {
   const factory FixedTableColumn(double size) = _$FixedTableColumn;
 
-  double get size => throw _privateConstructorUsedError;
+  double get size;
   @JsonKey(ignore: true)
   $FixedTableColumnCopyWith<FixedTableColumn> get copyWith =>
       throw _privateConstructorUsedError;
