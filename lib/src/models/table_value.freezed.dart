@@ -12,35 +12,7 @@ part of 'table_value.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$TableValueTearOff {
-  const _$TableValueTearOff();
-
-  TableData<T> data<T>(List<T> data) {
-    return TableData<T>(
-      data,
-    );
-  }
-
-  TableLoading<T> loading<T>() {
-    return TableLoading<T>();
-  }
-
-  TableEmpty<T> empty<T>() {
-    return TableEmpty<T>();
-  }
-
-  TableError<T> error<T>(Object err) {
-    return TableError<T>(
-      err,
-    );
-  }
-}
-
-/// @nodoc
-const $TableValue = _$TableValueTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$TableValue<T> {
@@ -114,30 +86,31 @@ class _$TableValueCopyWithImpl<T, $Res>
 }
 
 /// @nodoc
-abstract class $TableDataCopyWith<T, $Res> {
-  factory $TableDataCopyWith(
-          TableData<T> value, $Res Function(TableData<T>) then) =
-      _$TableDataCopyWithImpl<T, $Res>;
+abstract class _$$TableDataCopyWith<T, $Res> {
+  factory _$$TableDataCopyWith(
+          _$TableData<T> value, $Res Function(_$TableData<T>) then) =
+      __$$TableDataCopyWithImpl<T, $Res>;
   $Res call({List<T> data});
 }
 
 /// @nodoc
-class _$TableDataCopyWithImpl<T, $Res> extends _$TableValueCopyWithImpl<T, $Res>
-    implements $TableDataCopyWith<T, $Res> {
-  _$TableDataCopyWithImpl(
-      TableData<T> _value, $Res Function(TableData<T>) _then)
-      : super(_value, (v) => _then(v as TableData<T>));
+class __$$TableDataCopyWithImpl<T, $Res>
+    extends _$TableValueCopyWithImpl<T, $Res>
+    implements _$$TableDataCopyWith<T, $Res> {
+  __$$TableDataCopyWithImpl(
+      _$TableData<T> _value, $Res Function(_$TableData<T>) _then)
+      : super(_value, (v) => _then(v as _$TableData<T>));
 
   @override
-  TableData<T> get _value => super._value as TableData<T>;
+  _$TableData<T> get _value => super._value as _$TableData<T>;
 
   @override
   $Res call({
     Object? data = freezed,
   }) {
-    return _then(TableData<T>(
+    return _then(_$TableData<T>(
       data == freezed
-          ? _value.data
+          ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<T>,
     ));
@@ -147,10 +120,14 @@ class _$TableDataCopyWithImpl<T, $Res> extends _$TableValueCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$TableData<T> implements TableData<T> {
-  const _$TableData(this.data);
+  const _$TableData(final List<T> data) : _data = data;
 
+  final List<T> _data;
   @override
-  final List<T> data;
+  List<T> get data {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
 
   @override
   String toString() {
@@ -161,18 +138,18 @@ class _$TableData<T> implements TableData<T> {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is TableData<T> &&
-            const DeepCollectionEquality().equals(other.data, data));
+            other is _$TableData<T> &&
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
   @override
-  $TableDataCopyWith<T, TableData<T>> get copyWith =>
-      _$TableDataCopyWithImpl<T, TableData<T>>(this, _$identity);
+  _$$TableDataCopyWith<T, _$TableData<T>> get copyWith =>
+      __$$TableDataCopyWithImpl<T, _$TableData<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -250,31 +227,31 @@ class _$TableData<T> implements TableData<T> {
 }
 
 abstract class TableData<T> implements TableValue<T> {
-  const factory TableData(List<T> data) = _$TableData<T>;
+  const factory TableData(final List<T> data) = _$TableData<T>;
 
-  List<T> get data;
+  List<T> get data => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TableDataCopyWith<T, TableData<T>> get copyWith =>
+  _$$TableDataCopyWith<T, _$TableData<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TableLoadingCopyWith<T, $Res> {
-  factory $TableLoadingCopyWith(
-          TableLoading<T> value, $Res Function(TableLoading<T>) then) =
-      _$TableLoadingCopyWithImpl<T, $Res>;
+abstract class _$$TableLoadingCopyWith<T, $Res> {
+  factory _$$TableLoadingCopyWith(
+          _$TableLoading<T> value, $Res Function(_$TableLoading<T>) then) =
+      __$$TableLoadingCopyWithImpl<T, $Res>;
 }
 
 /// @nodoc
-class _$TableLoadingCopyWithImpl<T, $Res>
+class __$$TableLoadingCopyWithImpl<T, $Res>
     extends _$TableValueCopyWithImpl<T, $Res>
-    implements $TableLoadingCopyWith<T, $Res> {
-  _$TableLoadingCopyWithImpl(
-      TableLoading<T> _value, $Res Function(TableLoading<T>) _then)
-      : super(_value, (v) => _then(v as TableLoading<T>));
+    implements _$$TableLoadingCopyWith<T, $Res> {
+  __$$TableLoadingCopyWithImpl(
+      _$TableLoading<T> _value, $Res Function(_$TableLoading<T>) _then)
+      : super(_value, (v) => _then(v as _$TableLoading<T>));
 
   @override
-  TableLoading<T> get _value => super._value as TableLoading<T>;
+  _$TableLoading<T> get _value => super._value as _$TableLoading<T>;
 }
 
 /// @nodoc
@@ -290,7 +267,7 @@ class _$TableLoading<T> implements TableLoading<T> {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is TableLoading<T>);
+        (other.runtimeType == runtimeType && other is _$TableLoading<T>);
   }
 
   @override
@@ -376,22 +353,22 @@ abstract class TableLoading<T> implements TableValue<T> {
 }
 
 /// @nodoc
-abstract class $TableEmptyCopyWith<T, $Res> {
-  factory $TableEmptyCopyWith(
-          TableEmpty<T> value, $Res Function(TableEmpty<T>) then) =
-      _$TableEmptyCopyWithImpl<T, $Res>;
+abstract class _$$TableEmptyCopyWith<T, $Res> {
+  factory _$$TableEmptyCopyWith(
+          _$TableEmpty<T> value, $Res Function(_$TableEmpty<T>) then) =
+      __$$TableEmptyCopyWithImpl<T, $Res>;
 }
 
 /// @nodoc
-class _$TableEmptyCopyWithImpl<T, $Res>
+class __$$TableEmptyCopyWithImpl<T, $Res>
     extends _$TableValueCopyWithImpl<T, $Res>
-    implements $TableEmptyCopyWith<T, $Res> {
-  _$TableEmptyCopyWithImpl(
-      TableEmpty<T> _value, $Res Function(TableEmpty<T>) _then)
-      : super(_value, (v) => _then(v as TableEmpty<T>));
+    implements _$$TableEmptyCopyWith<T, $Res> {
+  __$$TableEmptyCopyWithImpl(
+      _$TableEmpty<T> _value, $Res Function(_$TableEmpty<T>) _then)
+      : super(_value, (v) => _then(v as _$TableEmpty<T>));
 
   @override
-  TableEmpty<T> get _value => super._value as TableEmpty<T>;
+  _$TableEmpty<T> get _value => super._value as _$TableEmpty<T>;
 }
 
 /// @nodoc
@@ -407,7 +384,7 @@ class _$TableEmpty<T> implements TableEmpty<T> {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is TableEmpty<T>);
+        (other.runtimeType == runtimeType && other is _$TableEmpty<T>);
   }
 
   @override
@@ -493,29 +470,29 @@ abstract class TableEmpty<T> implements TableValue<T> {
 }
 
 /// @nodoc
-abstract class $TableErrorCopyWith<T, $Res> {
-  factory $TableErrorCopyWith(
-          TableError<T> value, $Res Function(TableError<T>) then) =
-      _$TableErrorCopyWithImpl<T, $Res>;
+abstract class _$$TableErrorCopyWith<T, $Res> {
+  factory _$$TableErrorCopyWith(
+          _$TableError<T> value, $Res Function(_$TableError<T>) then) =
+      __$$TableErrorCopyWithImpl<T, $Res>;
   $Res call({Object err});
 }
 
 /// @nodoc
-class _$TableErrorCopyWithImpl<T, $Res>
+class __$$TableErrorCopyWithImpl<T, $Res>
     extends _$TableValueCopyWithImpl<T, $Res>
-    implements $TableErrorCopyWith<T, $Res> {
-  _$TableErrorCopyWithImpl(
-      TableError<T> _value, $Res Function(TableError<T>) _then)
-      : super(_value, (v) => _then(v as TableError<T>));
+    implements _$$TableErrorCopyWith<T, $Res> {
+  __$$TableErrorCopyWithImpl(
+      _$TableError<T> _value, $Res Function(_$TableError<T>) _then)
+      : super(_value, (v) => _then(v as _$TableError<T>));
 
   @override
-  TableError<T> get _value => super._value as TableError<T>;
+  _$TableError<T> get _value => super._value as _$TableError<T>;
 
   @override
   $Res call({
     Object? err = freezed,
   }) {
-    return _then(TableError<T>(
+    return _then(_$TableError<T>(
       err == freezed
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
@@ -541,7 +518,7 @@ class _$TableError<T> implements TableError<T> {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is TableError<T> &&
+            other is _$TableError<T> &&
             const DeepCollectionEquality().equals(other.err, err));
   }
 
@@ -551,8 +528,8 @@ class _$TableError<T> implements TableError<T> {
 
   @JsonKey(ignore: true)
   @override
-  $TableErrorCopyWith<T, TableError<T>> get copyWith =>
-      _$TableErrorCopyWithImpl<T, TableError<T>>(this, _$identity);
+  _$$TableErrorCopyWith<T, _$TableError<T>> get copyWith =>
+      __$$TableErrorCopyWithImpl<T, _$TableError<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -630,10 +607,10 @@ class _$TableError<T> implements TableError<T> {
 }
 
 abstract class TableError<T> implements TableValue<T> {
-  const factory TableError(Object err) = _$TableError<T>;
+  const factory TableError(final Object err) = _$TableError<T>;
 
-  Object get err;
+  Object get err => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TableErrorCopyWith<T, TableError<T>> get copyWith =>
+  _$$TableErrorCopyWith<T, _$TableError<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

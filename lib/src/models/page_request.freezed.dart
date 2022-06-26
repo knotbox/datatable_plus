@@ -12,28 +12,7 @@ part of 'page_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$PageRequestTearOff {
-  const _$PageRequestTearOff();
-
-  _PageRequest call(
-      {int? sortColumnIndex,
-      required int offset,
-      bool? sortAscending,
-      required int pageSize}) {
-    return _PageRequest(
-      sortColumnIndex: sortColumnIndex,
-      offset: offset,
-      sortAscending: sortAscending,
-      pageSize: pageSize,
-    );
-  }
-}
-
-/// @nodoc
-const $PageRequest = _$PageRequestTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$PageRequest {
@@ -93,25 +72,25 @@ class _$PageRequestCopyWithImpl<$Res> implements $PageRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$PageRequestCopyWith<$Res>
+abstract class _$$_PageRequestCopyWith<$Res>
     implements $PageRequestCopyWith<$Res> {
-  factory _$PageRequestCopyWith(
-          _PageRequest value, $Res Function(_PageRequest) then) =
-      __$PageRequestCopyWithImpl<$Res>;
+  factory _$$_PageRequestCopyWith(
+          _$_PageRequest value, $Res Function(_$_PageRequest) then) =
+      __$$_PageRequestCopyWithImpl<$Res>;
   @override
   $Res call(
       {int? sortColumnIndex, int offset, bool? sortAscending, int pageSize});
 }
 
 /// @nodoc
-class __$PageRequestCopyWithImpl<$Res> extends _$PageRequestCopyWithImpl<$Res>
-    implements _$PageRequestCopyWith<$Res> {
-  __$PageRequestCopyWithImpl(
-      _PageRequest _value, $Res Function(_PageRequest) _then)
-      : super(_value, (v) => _then(v as _PageRequest));
+class __$$_PageRequestCopyWithImpl<$Res> extends _$PageRequestCopyWithImpl<$Res>
+    implements _$$_PageRequestCopyWith<$Res> {
+  __$$_PageRequestCopyWithImpl(
+      _$_PageRequest _value, $Res Function(_$_PageRequest) _then)
+      : super(_value, (v) => _then(v as _$_PageRequest));
 
   @override
-  _PageRequest get _value => super._value as _PageRequest;
+  _$_PageRequest get _value => super._value as _$_PageRequest;
 
   @override
   $Res call({
@@ -120,7 +99,7 @@ class __$PageRequestCopyWithImpl<$Res> extends _$PageRequestCopyWithImpl<$Res>
     Object? sortAscending = freezed,
     Object? pageSize = freezed,
   }) {
-    return _then(_PageRequest(
+    return _then(_$_PageRequest(
       sortColumnIndex: sortColumnIndex == freezed
           ? _value.sortColumnIndex
           : sortColumnIndex // ignore: cast_nullable_to_non_nullable
@@ -168,7 +147,7 @@ class _$_PageRequest implements _PageRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PageRequest &&
+            other is _$_PageRequest &&
             const DeepCollectionEquality()
                 .equals(other.sortColumnIndex, sortColumnIndex) &&
             const DeepCollectionEquality().equals(other.offset, offset) &&
@@ -187,27 +166,27 @@ class _$_PageRequest implements _PageRequest {
 
   @JsonKey(ignore: true)
   @override
-  _$PageRequestCopyWith<_PageRequest> get copyWith =>
-      __$PageRequestCopyWithImpl<_PageRequest>(this, _$identity);
+  _$$_PageRequestCopyWith<_$_PageRequest> get copyWith =>
+      __$$_PageRequestCopyWithImpl<_$_PageRequest>(this, _$identity);
 }
 
 abstract class _PageRequest implements PageRequest {
   factory _PageRequest(
-      {int? sortColumnIndex,
-      required int offset,
-      bool? sortAscending,
-      required int pageSize}) = _$_PageRequest;
+      {final int? sortColumnIndex,
+      required final int offset,
+      final bool? sortAscending,
+      required final int pageSize}) = _$_PageRequest;
 
   @override
-  int? get sortColumnIndex;
+  int? get sortColumnIndex => throw _privateConstructorUsedError;
   @override
-  int get offset;
+  int get offset => throw _privateConstructorUsedError;
   @override
-  bool? get sortAscending;
+  bool? get sortAscending => throw _privateConstructorUsedError;
   @override
-  int get pageSize;
+  int get pageSize => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PageRequestCopyWith<_PageRequest> get copyWith =>
+  _$$_PageRequestCopyWith<_$_PageRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }

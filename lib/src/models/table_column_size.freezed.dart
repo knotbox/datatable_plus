@@ -12,27 +12,7 @@ part of 'table_column_size.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$TableColumnSizeTearOff {
-  const _$TableColumnSizeTearOff();
-
-  FlexTableColumn flex(int flex) {
-    return FlexTableColumn(
-      flex,
-    );
-  }
-
-  FixedTableColumn fixed(double size) {
-    return FixedTableColumn(
-      size,
-    );
-  }
-}
-
-/// @nodoc
-const $TableColumnSize = _$TableColumnSizeTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$TableColumnSize {
@@ -94,29 +74,29 @@ class _$TableColumnSizeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class $FlexTableColumnCopyWith<$Res> {
-  factory $FlexTableColumnCopyWith(
-          FlexTableColumn value, $Res Function(FlexTableColumn) then) =
-      _$FlexTableColumnCopyWithImpl<$Res>;
+abstract class _$$FlexTableColumnCopyWith<$Res> {
+  factory _$$FlexTableColumnCopyWith(
+          _$FlexTableColumn value, $Res Function(_$FlexTableColumn) then) =
+      __$$FlexTableColumnCopyWithImpl<$Res>;
   $Res call({int flex});
 }
 
 /// @nodoc
-class _$FlexTableColumnCopyWithImpl<$Res>
+class __$$FlexTableColumnCopyWithImpl<$Res>
     extends _$TableColumnSizeCopyWithImpl<$Res>
-    implements $FlexTableColumnCopyWith<$Res> {
-  _$FlexTableColumnCopyWithImpl(
-      FlexTableColumn _value, $Res Function(FlexTableColumn) _then)
-      : super(_value, (v) => _then(v as FlexTableColumn));
+    implements _$$FlexTableColumnCopyWith<$Res> {
+  __$$FlexTableColumnCopyWithImpl(
+      _$FlexTableColumn _value, $Res Function(_$FlexTableColumn) _then)
+      : super(_value, (v) => _then(v as _$FlexTableColumn));
 
   @override
-  FlexTableColumn get _value => super._value as FlexTableColumn;
+  _$FlexTableColumn get _value => super._value as _$FlexTableColumn;
 
   @override
   $Res call({
     Object? flex = freezed,
   }) {
-    return _then(FlexTableColumn(
+    return _then(_$FlexTableColumn(
       flex == freezed
           ? _value.flex
           : flex // ignore: cast_nullable_to_non_nullable
@@ -142,7 +122,7 @@ class _$FlexTableColumn implements FlexTableColumn {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is FlexTableColumn &&
+            other is _$FlexTableColumn &&
             const DeepCollectionEquality().equals(other.flex, flex));
   }
 
@@ -152,8 +132,8 @@ class _$FlexTableColumn implements FlexTableColumn {
 
   @JsonKey(ignore: true)
   @override
-  $FlexTableColumnCopyWith<FlexTableColumn> get copyWith =>
-      _$FlexTableColumnCopyWithImpl<FlexTableColumn>(this, _$identity);
+  _$$FlexTableColumnCopyWith<_$FlexTableColumn> get copyWith =>
+      __$$FlexTableColumnCopyWithImpl<_$FlexTableColumn>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -219,38 +199,38 @@ class _$FlexTableColumn implements FlexTableColumn {
 }
 
 abstract class FlexTableColumn implements TableColumnSize {
-  const factory FlexTableColumn(int flex) = _$FlexTableColumn;
+  const factory FlexTableColumn(final int flex) = _$FlexTableColumn;
 
-  int get flex;
+  int get flex => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FlexTableColumnCopyWith<FlexTableColumn> get copyWith =>
+  _$$FlexTableColumnCopyWith<_$FlexTableColumn> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FixedTableColumnCopyWith<$Res> {
-  factory $FixedTableColumnCopyWith(
-          FixedTableColumn value, $Res Function(FixedTableColumn) then) =
-      _$FixedTableColumnCopyWithImpl<$Res>;
+abstract class _$$FixedTableColumnCopyWith<$Res> {
+  factory _$$FixedTableColumnCopyWith(
+          _$FixedTableColumn value, $Res Function(_$FixedTableColumn) then) =
+      __$$FixedTableColumnCopyWithImpl<$Res>;
   $Res call({double size});
 }
 
 /// @nodoc
-class _$FixedTableColumnCopyWithImpl<$Res>
+class __$$FixedTableColumnCopyWithImpl<$Res>
     extends _$TableColumnSizeCopyWithImpl<$Res>
-    implements $FixedTableColumnCopyWith<$Res> {
-  _$FixedTableColumnCopyWithImpl(
-      FixedTableColumn _value, $Res Function(FixedTableColumn) _then)
-      : super(_value, (v) => _then(v as FixedTableColumn));
+    implements _$$FixedTableColumnCopyWith<$Res> {
+  __$$FixedTableColumnCopyWithImpl(
+      _$FixedTableColumn _value, $Res Function(_$FixedTableColumn) _then)
+      : super(_value, (v) => _then(v as _$FixedTableColumn));
 
   @override
-  FixedTableColumn get _value => super._value as FixedTableColumn;
+  _$FixedTableColumn get _value => super._value as _$FixedTableColumn;
 
   @override
   $Res call({
     Object? size = freezed,
   }) {
-    return _then(FixedTableColumn(
+    return _then(_$FixedTableColumn(
       size == freezed
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
@@ -276,7 +256,7 @@ class _$FixedTableColumn implements FixedTableColumn {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is FixedTableColumn &&
+            other is _$FixedTableColumn &&
             const DeepCollectionEquality().equals(other.size, size));
   }
 
@@ -286,8 +266,8 @@ class _$FixedTableColumn implements FixedTableColumn {
 
   @JsonKey(ignore: true)
   @override
-  $FixedTableColumnCopyWith<FixedTableColumn> get copyWith =>
-      _$FixedTableColumnCopyWithImpl<FixedTableColumn>(this, _$identity);
+  _$$FixedTableColumnCopyWith<_$FixedTableColumn> get copyWith =>
+      __$$FixedTableColumnCopyWithImpl<_$FixedTableColumn>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -353,10 +333,10 @@ class _$FixedTableColumn implements FixedTableColumn {
 }
 
 abstract class FixedTableColumn implements TableColumnSize {
-  const factory FixedTableColumn(double size) = _$FixedTableColumn;
+  const factory FixedTableColumn(final double size) = _$FixedTableColumn;
 
-  double get size;
+  double get size => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FixedTableColumnCopyWith<FixedTableColumn> get copyWith =>
+  _$$FixedTableColumnCopyWith<_$FixedTableColumn> get copyWith =>
       throw _privateConstructorUsedError;
 }

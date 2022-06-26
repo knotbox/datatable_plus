@@ -12,22 +12,7 @@ part of 'controller_action.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$ActionTearOff {
-  const _$ActionTearOff();
-
-  _Action call(ActionType type, int? index) {
-    return _Action(
-      type,
-      index,
-    );
-  }
-}
-
-/// @nodoc
-const $Action = _$ActionTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$Action {
@@ -72,28 +57,28 @@ class _$ActionCopyWithImpl<$Res> implements $ActionCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$ActionCopyWith<$Res> implements $ActionCopyWith<$Res> {
-  factory _$ActionCopyWith(_Action value, $Res Function(_Action) then) =
-      __$ActionCopyWithImpl<$Res>;
+abstract class _$$_ActionCopyWith<$Res> implements $ActionCopyWith<$Res> {
+  factory _$$_ActionCopyWith(_$_Action value, $Res Function(_$_Action) then) =
+      __$$_ActionCopyWithImpl<$Res>;
   @override
   $Res call({ActionType type, int? index});
 }
 
 /// @nodoc
-class __$ActionCopyWithImpl<$Res> extends _$ActionCopyWithImpl<$Res>
-    implements _$ActionCopyWith<$Res> {
-  __$ActionCopyWithImpl(_Action _value, $Res Function(_Action) _then)
-      : super(_value, (v) => _then(v as _Action));
+class __$$_ActionCopyWithImpl<$Res> extends _$ActionCopyWithImpl<$Res>
+    implements _$$_ActionCopyWith<$Res> {
+  __$$_ActionCopyWithImpl(_$_Action _value, $Res Function(_$_Action) _then)
+      : super(_value, (v) => _then(v as _$_Action));
 
   @override
-  _Action get _value => super._value as _Action;
+  _$_Action get _value => super._value as _$_Action;
 
   @override
   $Res call({
     Object? type = freezed,
     Object? index = freezed,
   }) {
-    return _then(_Action(
+    return _then(_$_Action(
       type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -125,7 +110,7 @@ class _$_Action implements _Action {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Action &&
+            other is _$_Action &&
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.index, index));
   }
@@ -138,18 +123,19 @@ class _$_Action implements _Action {
 
   @JsonKey(ignore: true)
   @override
-  _$ActionCopyWith<_Action> get copyWith =>
-      __$ActionCopyWithImpl<_Action>(this, _$identity);
+  _$$_ActionCopyWith<_$_Action> get copyWith =>
+      __$$_ActionCopyWithImpl<_$_Action>(this, _$identity);
 }
 
 abstract class _Action implements Action {
-  factory _Action(ActionType type, int? index) = _$_Action;
+  factory _Action(final ActionType type, final int? index) = _$_Action;
 
   @override
-  ActionType get type;
+  ActionType get type => throw _privateConstructorUsedError;
   @override
-  int? get index;
+  int? get index => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$ActionCopyWith<_Action> get copyWith => throw _privateConstructorUsedError;
+  _$$_ActionCopyWith<_$_Action> get copyWith =>
+      throw _privateConstructorUsedError;
 }

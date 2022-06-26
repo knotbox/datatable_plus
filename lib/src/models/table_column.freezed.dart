@@ -12,28 +12,7 @@ part of 'table_column.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$TableColumnTearOff {
-  const _$TableColumnTearOff();
-
-  _TableColumn<T> call<T>(
-      {TableColumnSize size = const TableColumnSize.flex(1),
-      required Widget label,
-      required Widget Function(int, T) cellBuilder,
-      bool canSort = false}) {
-    return _TableColumn<T>(
-      size: size,
-      label: label,
-      cellBuilder: cellBuilder,
-      canSort: canSort,
-    );
-  }
-}
-
-/// @nodoc
-const $TableColumn = _$TableColumnTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$TableColumn<T> {
@@ -106,11 +85,11 @@ class _$TableColumnCopyWithImpl<T, $Res>
 }
 
 /// @nodoc
-abstract class _$TableColumnCopyWith<T, $Res>
+abstract class _$$_TableColumnCopyWith<T, $Res>
     implements $TableColumnCopyWith<T, $Res> {
-  factory _$TableColumnCopyWith(
-          _TableColumn<T> value, $Res Function(_TableColumn<T>) then) =
-      __$TableColumnCopyWithImpl<T, $Res>;
+  factory _$$_TableColumnCopyWith(
+          _$_TableColumn<T> value, $Res Function(_$_TableColumn<T>) then) =
+      __$$_TableColumnCopyWithImpl<T, $Res>;
   @override
   $Res call(
       {TableColumnSize size,
@@ -123,15 +102,15 @@ abstract class _$TableColumnCopyWith<T, $Res>
 }
 
 /// @nodoc
-class __$TableColumnCopyWithImpl<T, $Res>
+class __$$_TableColumnCopyWithImpl<T, $Res>
     extends _$TableColumnCopyWithImpl<T, $Res>
-    implements _$TableColumnCopyWith<T, $Res> {
-  __$TableColumnCopyWithImpl(
-      _TableColumn<T> _value, $Res Function(_TableColumn<T>) _then)
-      : super(_value, (v) => _then(v as _TableColumn<T>));
+    implements _$$_TableColumnCopyWith<T, $Res> {
+  __$$_TableColumnCopyWithImpl(
+      _$_TableColumn<T> _value, $Res Function(_$_TableColumn<T>) _then)
+      : super(_value, (v) => _then(v as _$_TableColumn<T>));
 
   @override
-  _TableColumn<T> get _value => super._value as _TableColumn<T>;
+  _$_TableColumn<T> get _value => super._value as _$_TableColumn<T>;
 
   @override
   $Res call({
@@ -140,7 +119,7 @@ class __$TableColumnCopyWithImpl<T, $Res>
     Object? cellBuilder = freezed,
     Object? canSort = freezed,
   }) {
-    return _then(_TableColumn<T>(
+    return _then(_$_TableColumn<T>(
       size: size == freezed
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
@@ -170,15 +149,15 @@ class _$_TableColumn<T> implements _TableColumn<T> {
       required this.cellBuilder,
       this.canSort = false});
 
-  @JsonKey()
   @override
+  @JsonKey()
   final TableColumnSize size;
   @override
   final Widget label;
   @override
   final Widget Function(int, T) cellBuilder;
-  @JsonKey()
   @override
+  @JsonKey()
   final bool canSort;
 
   @override
@@ -190,7 +169,7 @@ class _$_TableColumn<T> implements _TableColumn<T> {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _TableColumn<T> &&
+            other is _$_TableColumn<T> &&
             const DeepCollectionEquality().equals(other.size, size) &&
             const DeepCollectionEquality().equals(other.label, label) &&
             (identical(other.cellBuilder, cellBuilder) ||
@@ -208,27 +187,27 @@ class _$_TableColumn<T> implements _TableColumn<T> {
 
   @JsonKey(ignore: true)
   @override
-  _$TableColumnCopyWith<T, _TableColumn<T>> get copyWith =>
-      __$TableColumnCopyWithImpl<T, _TableColumn<T>>(this, _$identity);
+  _$$_TableColumnCopyWith<T, _$_TableColumn<T>> get copyWith =>
+      __$$_TableColumnCopyWithImpl<T, _$_TableColumn<T>>(this, _$identity);
 }
 
 abstract class _TableColumn<T> implements TableColumn<T> {
   factory _TableColumn(
-      {TableColumnSize size,
-      required Widget label,
-      required Widget Function(int, T) cellBuilder,
-      bool canSort}) = _$_TableColumn<T>;
+      {final TableColumnSize size,
+      required final Widget label,
+      required final Widget Function(int, T) cellBuilder,
+      final bool canSort}) = _$_TableColumn<T>;
 
   @override
-  TableColumnSize get size;
+  TableColumnSize get size => throw _privateConstructorUsedError;
   @override
-  Widget get label;
+  Widget get label => throw _privateConstructorUsedError;
   @override
-  Widget Function(int, T) get cellBuilder;
+  Widget Function(int, T) get cellBuilder => throw _privateConstructorUsedError;
   @override
-  bool get canSort;
+  bool get canSort => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$TableColumnCopyWith<T, _TableColumn<T>> get copyWith =>
+  _$$_TableColumnCopyWith<T, _$_TableColumn<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
