@@ -115,7 +115,7 @@ class _TableRowState<T> extends State<TableRow<T>>
 
       animation = Tween(
         begin: theme.checkboxSlidableTheme!.indicatorWidth,
-        end: 40.0,
+        end: (theme.rowHeight ?? 50) / 2.5,
       ).animate(
         CurvedAnimation(
           parent: controller,
@@ -180,59 +180,62 @@ class _TableRowState<T> extends State<TableRow<T>>
           children: [
             if (hasCheckbox)
               Container(
-                height: (theme.rowHeight ?? 50) - 3,
+                height: (theme.rowHeight ?? 50) / 2.5,
                 decoration: BoxDecoration(
                   color: checkboxBackgroundColor,
-                  borderRadius: BorderRadius.circular(1),
+                  borderRadius: BorderRadius.circular(2),
                 ),
                 width: animation.value,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 100),
-                  child: animation.value > 25
-                      ? Stack(
-                          children: [
-                            Positioned.fill(
-                              child: Center(
-                                child: Container(
-                                  width: 18,
-                                  height: 18,
-                                  decoration: BoxDecoration(
-                                    color: checkboxBackgroundColor?.darken(
-                                      0.15,
+                  child: animation.value > 10
+                      ? Transform.scale(
+                          scale: 0.6,
+                          child: Stack(
+                            children: [
+                              Positioned.fill(
+                                child: Center(
+                                  child: Container(
+                                    width: 18,
+                                    height: 18,
+                                    decoration: BoxDecoration(
+                                      color: checkboxBackgroundColor?.darken(
+                                        0.15,
+                                      ),
+                                      borderRadius: BorderRadius.circular(1),
                                     ),
-                                    borderRadius: BorderRadius.circular(1),
                                   ),
                                 ),
                               ),
-                            ),
-                            Theme(
-                              data: ThemeData(
-                                unselectedWidgetColor:
-                                    checkboxBackgroundColor?.darken(
-                                  0.15,
+                              Theme(
+                                data: ThemeData(
+                                  unselectedWidgetColor:
+                                      checkboxBackgroundColor?.darken(
+                                    0.15,
+                                  ),
                                 ),
-                              ),
-                              child: Checkbox(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2),
-                                ),
-                                activeColor: slidableTheme!.activeColor,
-                                checkColor: table.checkColor?.call(
-                                  widget.index,
-                                  widget.item,
-                                ),
-                                value: isSelected,
-                                onChanged: (value) {
-                                  onToggleSelection(value ?? false);
-                                  tableController.onSelectionChanged?.call(
+                                child: Checkbox(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                  activeColor: slidableTheme!.activeColor,
+                                  checkColor: table.checkColor?.call(
                                     widget.index,
-                                    value ?? false,
-                                    tableController,
-                                  );
-                                },
+                                    widget.item,
+                                  ),
+                                  value: isSelected,
+                                  onChanged: (value) {
+                                    onToggleSelection(value ?? false);
+                                    tableController.onSelectionChanged?.call(
+                                      widget.index,
+                                      value ?? false,
+                                      tableController,
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         )
                       : const SizedBox.shrink(),
                 ),

@@ -1,3 +1,7 @@
+## Unreleased
+### Changed
+- Checkbox size
+
 ## 0.0.3 - 2022-06-26
 ### Added
 - Optional checkboxes in slidables
