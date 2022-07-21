@@ -83,6 +83,9 @@ class DataTablePlus<T> extends StatefulWidget {
 
   final double minCellWidth;
 
+  ///Label displayed between navigation arrows
+  final String Function(int page, int rowsPerPage, int rowCount)? pageLabel;
+
   const DataTablePlus({
     Key? key,
     required this.keyOf,
@@ -110,6 +113,7 @@ class DataTablePlus<T> extends StatefulWidget {
     this.expandedRow,
     this.theme,
     this.checkboxBackgroundColor,
+    this.pageLabel,
   }) : super(key: key);
 
   static DataTablePlus<T>? of<T>(BuildContext context) =>
@@ -202,10 +206,11 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
             scrollDirection: Axis.horizontal,
             child: SizedBox(
               width: width,
-              child: ListView(
-                controller: scrollController,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                // controller: scrollController,
+                // shrinkWrap: true,
+                // physics: const NeverScrollableScrollPhysics(),
                 children: [
                   widget.header,
                   TableHeader(
@@ -213,26 +218,30 @@ class _DataTablePlusState<T> extends State<DataTablePlus<T>> {
                     columns: widget.columns,
                     source: widget.source,
                   ),
-                  widget.source.value.when(
-                    empty: widget.empty,
-                    data: (data) => TableBody<T>(
-                      data: data,
-                      rowsPerPage: widget.source.rowsPerPage,
-                      cellSizes: cellSizes,
-                      page: widget.source.page,
-                      columns: widget.columns,
-                      textStyle: widget.rowTextStyle,
+                  Expanded(
+                    child: widget.source.value.when(
+                      empty: widget.empty,
+                      data: (data) => TableBody<T>(
+                        data: data,
+                        rowsPerPage: widget.source.rowsPerPage,
+                        cellSizes: cellSizes,
+                        page: widget.source.page,
+                        columns: widget.columns,
+                        textStyle: widget.rowTextStyle,
+                        footer: TableFooter<T>(
+                          showRowPerPageSelection:
+                              widget.showRowPerPageSelection,
+                          source: widget.source,
+                          availableRowsPerPage: widget.availableRowsPerPage,
+                          footerWidgets: widget.footerWidgets,
+                          onPageChanged: widget.onPageChanged,
+                          pageLabel: widget.pageLabel,
+                        ),
+                      ),
+                      loading: widget.loading,
+                      error: widget.error,
                     ),
-                    loading: widget.loading,
-                    error: widget.error,
                   ),
-                  TableFooter(
-                    showRowPerPageSelection: widget.showRowPerPageSelection,
-                    source: widget.source,
-                    availableRowsPerPage: widget.availableRowsPerPage,
-                    footerWidgets: widget.footerWidgets,
-                    onPageChanged: widget.onPageChanged,
-                  )
                 ],
               ),
             ),

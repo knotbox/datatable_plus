@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 
 import 'models/page_request.dart';
@@ -45,6 +44,19 @@ abstract class DataTablePlusSource<T> extends ChangeNotifier {
   Future<void> loadNextPage() async {
     page += 1;
     await _loadPage(page);
+  }
+
+  @nonVirtual
+  Future<void> loadFirstPage() async {
+    page = 0;
+    await _loadPage(page);
+  }
+
+  @nonVirtual
+  Future<void> loadLastPage() async {
+    final lastPage = (rowCount / rowsPerPage).floor();
+    page = lastPage;
+    await _loadPage(lastPage);
   }
 
   bool get isLastPage => page == (rowCount / rowsPerPage).floor();

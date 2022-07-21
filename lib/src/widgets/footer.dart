@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../data_table_plus_source.dart';
 import '../data_table_plus_theme.dart';
+import 'page_controls.dart';
 
-class TableFooter extends StatelessWidget {
+class TableFooter<T> extends StatelessWidget {
   final DataTablePlusSource source;
   final bool showRowPerPageSelection;
   final List<Widget> footerWidgets;
   final List<int> availableRowsPerPage;
   final void Function(int)? onPageChanged;
+  final String Function(int page, int rowsPerPage, int rowCount)? pageLabel;
 
   const TableFooter({
     Key? key,
@@ -17,15 +19,13 @@ class TableFooter extends StatelessWidget {
     required this.footerWidgets,
     this.onPageChanged,
     required this.availableRowsPerPage,
+    this.pageLabel,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = DataTablePlusThemeData.of(context);
-    var totalPage = (source.rowCount / source.rowsPerPage).ceil();
-    if (totalPage < 1) {
-      totalPage = 1;
-    }
+
     return SizedBox(
       height: theme.rowHeight,
       child: CustomScrollView(
@@ -89,34 +89,7 @@ class TableFooter extends StatelessWidget {
                             const VerticalDivider(indent: 10, endIndent: 10),
                           ],
                         ),
-                      IconButton(
-                        onPressed: source.page == 0
-                            ? null
-                            : () {
-                                source.loadPreviousPage();
-                                onPageChanged?.call(source.page);
-                              },
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          size: 16,
-                        ),
-                      ),
-                      Text(
-                        '${source.page + 1} / $totalPage',
-                        style: theme.footerTextStyle,
-                      ),
-                      IconButton(
-                        onPressed: source.isLastPage
-                            ? null
-                            : () {
-                                source.loadNextPage();
-                                onPageChanged?.call(source.page);
-                              },
-                        icon: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16,
-                        ),
-                      ),
+                      PageControls<T>(),
                     ],
                   ),
                 ),
