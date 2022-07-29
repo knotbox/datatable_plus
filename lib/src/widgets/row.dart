@@ -176,92 +176,99 @@ class _TableRowState<T> extends State<TableRow<T>>
       },
       child: AnimatedBuilder(
         animation: animation,
-        builder: (context, _) => Row(
-          children: [
-            if (hasCheckbox)
-              Container(
-                height: (theme.rowHeight ?? 50) / 2.5,
-                decoration: BoxDecoration(
-                  color: checkboxBackgroundColor,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-                width: animation.value,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 100),
-                  child: animation.value > 10
-                      ? Transform.scale(
-                          scale: 0.6,
-                          child: Stack(
-                            children: [
-                              Positioned.fill(
-                                child: Center(
-                                  child: Container(
-                                    width: 18,
-                                    height: 18,
-                                    decoration: BoxDecoration(
-                                      color: checkboxBackgroundColor?.darken(
-                                        0.15,
+        builder: (context, _) {
+          return Row(
+            children: [
+              if (hasCheckbox)
+                Container(
+                  height: (theme.rowHeight ?? 50) / 2.5,
+                  decoration: BoxDecoration(
+                    color: checkboxBackgroundColor,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                  width: animation.value,
+                  child: AnimatedSwitcher(
+                    duration: Duration(
+                      milliseconds: theme.checkboxSlidableTheme!.duration!
+                              .inMilliseconds ~/
+                          4,
+                    ),
+                    child: animation.value >
+                            ((theme.rowHeight ?? 50) / 2.5) * 0.8
+                        ? Transform.scale(
+                            scale: 0.6,
+                            child: Stack(
+                              children: [
+                                Positioned.fill(
+                                  child: Center(
+                                    child: Container(
+                                      width: 18,
+                                      height: 18,
+                                      decoration: BoxDecoration(
+                                        color: checkboxBackgroundColor?.darken(
+                                          0.15,
+                                        ),
+                                        borderRadius: BorderRadius.circular(1),
                                       ),
-                                      borderRadius: BorderRadius.circular(1),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Theme(
-                                data: ThemeData(
-                                  unselectedWidgetColor:
-                                      checkboxBackgroundColor?.darken(
-                                    0.15,
+                                Theme(
+                                  data: ThemeData(
+                                    unselectedWidgetColor:
+                                        checkboxBackgroundColor?.darken(
+                                      0.15,
+                                    ),
                                   ),
-                                ),
-                                child: Checkbox(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                  activeColor: slidableTheme!.activeColor,
-                                  checkColor: table.checkColor?.call(
-                                    widget.index,
-                                    widget.item,
-                                  ),
-                                  value: isSelected,
-                                  onChanged: (value) {
-                                    onToggleSelection(value ?? false);
-                                    tableController.onSelectionChanged?.call(
+                                  child: Checkbox(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(2),
+                                    ),
+                                    activeColor: slidableTheme!.activeColor,
+                                    checkColor: table.checkColor?.call(
                                       widget.index,
-                                      value ?? false,
-                                      tableController,
-                                    );
-                                  },
+                                      widget.item,
+                                    ),
+                                    value: isSelected,
+                                    onChanged: (value) {
+                                      onToggleSelection(value ?? false);
+                                      tableController.onSelectionChanged?.call(
+                                        widget.index,
+                                        value ?? false,
+                                        tableController,
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : const SizedBox.shrink(),
+                              ],
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ),
+              Expanded(
+                child: Container(
+                  height: theme.rowHeight,
+                  color: color,
+                  child: Row(
+                    children: widget.cells.mapIndexed(
+                      (index, e) {
+                        return SizedBox(
+                          width: hasCheckbox
+                              ? index == table.shrinkableColumnIndex
+                                  ? widget.sizes[index] - animation.value
+                                  : widget.sizes[index]
+                              : widget.sizes[index],
+                          child: e,
+                        );
+                      },
+                    ).toList(),
+                  ),
                 ),
               ),
-            Expanded(
-              child: Container(
-                height: theme.rowHeight,
-                color: color,
-                child: Row(
-                  children: widget.cells.mapIndexed(
-                    (index, e) {
-                      return SizedBox(
-                        width: hasCheckbox
-                            ? index == table.shrinkableColumnIndex
-                                ? widget.sizes[index] - animation.value
-                                : widget.sizes[index]
-                            : widget.sizes[index],
-                        child: e,
-                      );
-                    },
-                  ).toList(),
-                ),
-              ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
     );
 
