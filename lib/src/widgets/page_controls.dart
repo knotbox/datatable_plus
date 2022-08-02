@@ -16,21 +16,23 @@ class PageControls<T> extends StatelessWidget {
     if (totalPage < 1) {
       totalPage = 1;
     }
+
     return Row(
       children: [
-        IconButton(
-          splashRadius: 20,
-          onPressed: source.page == 0
-              ? null
-              : () {
-                  source.loadFirstPage();
-                  table.onPageChanged?.call(source.page);
-                },
-          icon: const Icon(
-            Icons.first_page,
-            size: 16,
+        if (totalPage >= 3)
+          IconButton(
+            splashRadius: 20,
+            onPressed: source.page == 0
+                ? null
+                : () {
+                    source.loadFirstPage();
+                    table.onPageChanged?.call(source.page);
+                  },
+            icon: const Icon(
+              Icons.first_page,
+              size: 16,
+            ),
           ),
-        ),
         IconButton(
           splashRadius: 20,
           onPressed: source.page == 0
@@ -66,19 +68,20 @@ class PageControls<T> extends StatelessWidget {
             size: 16,
           ),
         ),
-        IconButton(
-          splashRadius: 20,
-          onPressed: source.isLastPage
-              ? null
-              : () {
-                  source.loadLastPage();
-                  table.onPageChanged?.call(source.page);
-                },
-          icon: const Icon(
-            Icons.last_page,
-            size: 16,
+        if (totalPage >= 3)
+          IconButton(
+            splashRadius: 20,
+            onPressed: source.isLastPage
+                ? null
+                : () {
+                    source.loadLastPage();
+                    table.onPageChanged?.call(source.page);
+                  },
+            icon: const Icon(
+              Icons.last_page,
+              size: 16,
+            ),
           ),
-        ),
       ],
     );
   }
